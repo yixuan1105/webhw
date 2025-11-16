@@ -1,0 +1,490 @@
+/* ==========================================
+   common.css - 通用樣式檔
+   ==========================================
+   適用於：學生功能頁面、訪客搜尋頁面
+   ========================================== */
+
+/* ==========================================
+   重置預設樣式
+   ========================================== */
+
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ==========================================
+   基礎頁面樣式
+   ========================================== */
+
+body {
+    /* 字型設定 */
+    font-family: 'Microsoft JhengHei', Arial, sans-serif;
+    
+    /* 背景顏色：淺灰色 */
+    background-color: #f5f5f5;
+    
+    /* 文字顏色：深灰色 */
+    color: #333;
+    
+    /* 行高：1.6 倍（讓文字更易讀） */
+    line-height: 1.6;
+    
+    /* 最小高度：填滿整個視窗 */
+    min-height: 100vh;
+}
+
+/* ==========================================
+   容器（限制最大寬度並置中）
+   ========================================== */
+
+.container {
+    /* 最大寬度：1200px */
+    max-width: 1200px;
+    
+    /* 左右自動外邊距（水平置中） */
+    margin: 0 auto;
+    
+    /* 內邊距：20px */
+    padding: 20px;
+}
+
+/* 小容器（用於表單、卡片等） */
+.container-small {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ==========================================
+   導航列
+   ========================================== */
+
+.navbar {
+    /* 背景顏色：深色 */
+    background-color: #2c3e50;
+    
+    /* 文字顏色：白色 */
+    color: white;
+    
+    /* 內邊距 */
+    padding: 15px 0;
+    
+    /* 陰影效果 */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.navbar .container {
+    /* 使用 Flexbox 布局 */
+    display: flex;
+    
+    /* 左右對齊（標題靠左，選單靠右） */
+    justify-content: space-between;
+    
+    /* 垂直置中 */
+    align-items: center;
+}
+
+/* 導航列標題 */
+.navbar h1 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* 導航列選單 */
+.navbar-menu {
+    /* 移除預設的 ul 樣式 */
+    list-style: none;
+    
+    /* 使用 Flexbox 水平排列 */
+    display: flex;
+    
+    /* 項目之間的間距 */
+    gap: 20px;
+}
+
+/* 導航列連結 */
+.navbar-menu a {
+    /* 文字顏色：白色 */
+    color: white;
+    
+    /* 移除底線 */
+    text-decoration: none;
+    
+    /* 內邊距 */
+    padding: 8px 15px;
+    
+    /* 圓角 */
+    border-radius: 5px;
+    
+    /* 過渡效果 */
+    transition: background-color 0.3s;
+}
+
+/* 導航列連結 hover 效果 */
+.navbar-menu a:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* ==========================================
+   卡片容器（用於顯示內容）
+   ========================================== */
+
+.card {
+    /* 背景顏色：白色 */
+    background: white;
+    
+    /* 圓角 */
+    border-radius: 10px;
+    
+    /* 內邊距 */
+    padding: 30px;
+    
+    /* 下方外邊距 */
+    margin-bottom: 20px;
+    
+    /* 陰影效果 */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* 卡片標題 */
+.card h2 {
+    /* 文字顏色 */
+    color: #2c3e50;
+    
+    /* 下方外邊距 */
+    margin-bottom: 20px;
+    
+    /* 下方邊框 */
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ecf0f1;
+}
+
+/* ==========================================
+   表單樣式
+   ========================================== */
+
+/* 表單群組（包含 label 和 input） */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Label 標籤 */
+.form-group label {
+    /* 顯示為區塊 */
+    display: block;
+    
+    /* 下方外邊距 */
+    margin-bottom: 8px;
+    
+    /* 文字顏色 */
+    color: #555;
+    
+    /* 字重：粗體 */
+    font-weight: bold;
+    
+    /* 字型大小 */
+    font-size: 14px;
+}
+
+/* 必填欄位標記 */
+.form-group label .required {
+    color: #e74c3c;
+}
+
+/* 輸入框、文字區域、下拉選單 */
+.form-control {
+    /* 寬度：100% */
+    width: 100%;
+    
+    /* 內邊距 */
+    padding: 12px;
+    
+    /* 邊框 */
+    border: 2px solid #ddd;
+    
+    /* 圓角 */
+    border-radius: 5px;
+    
+    /* 字型大小 */
+    font-size: 14px;
+    
+    /* 字型繼承 */
+    font-family: inherit;
+    
+    /* 過渡效果 */
+    transition: border-color 0.3s;
+}
+
+/* 輸入框聚焦效果 */
+.form-control:focus {
+    /* 移除預設外框 */
+    outline: none;
+    
+    /* 改變邊框顏色 */
+    border-color: #3498db;
+}
+
+/* 文字區域（高度調整） */
+textarea.form-control {
+    /* 最小高度 */
+    min-height: 100px;
+    
+    /* 允許垂直調整大小 */
+    resize: vertical;
+}
+
+/* ==========================================
+   按鈕樣式
+   ========================================== */
+
+/* 按鈕基礎樣式 */
+.btn {
+    /* 內邊距 */
+    padding: 12px 24px;
+    
+    /* 移除邊框 */
+    border: none;
+    
+    /* 圓角 */
+    border-radius: 5px;
+    
+    /* 字型大小 */
+    font-size: 14px;
+    
+    /* 字重：粗體 */
+    font-weight: bold;
+    
+    /* 游標：手指 */
+    cursor: pointer;
+    
+    /* 移除文字底線 */
+    text-decoration: none;
+    
+    /* 顯示為 inline-block（可以設定寬高） */
+    display: inline-block;
+    
+    /* 文字置中 */
+    text-align: center;
+    
+    /* 過渡效果 */
+    transition: all 0.3s;
+}
+
+/* 主要按鈕（藍色） */
+.btn-primary {
+    background-color: #3498db;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(52,152,219,0.3);
+}
+
+/* 成功按鈕（綠色） */
+.btn-success {
+    background-color: #27ae60;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #229954;
+}
+
+/* 危險按鈕（紅色，用於刪除） */
+.btn-danger {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+/* 次要按鈕（灰色） */
+.btn-secondary {
+    background-color: #95a5a6;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #7f8c8d;
+}
+
+/* 小按鈕 */
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 12px;
+}
+
+/* 大按鈕 */
+.btn-lg {
+    padding: 16px 32px;
+    font-size: 16px;
+}
+
+/* 按鈕區域（多個按鈕並排） */
+.btn-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* ==========================================
+   訊息提示框
+   ========================================== */
+
+/* 訊息框基礎樣式 */
+.alert {
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border-left: 4px solid;
+}
+
+/* 成功訊息（綠色） */
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #28a745;
+}
+
+/* 錯誤訊息（紅色） */
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #dc3545;
+}
+
+/* 警告訊息（黃色） */
+.alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border-color: #ffc107;
+}
+
+/* 資訊訊息（藍色） */
+.alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border-color: #17a2b8;
+}
+
+/* ==========================================
+   狀態標籤（用於顯示成果審核狀態）
+   ========================================== */
+
+.badge {
+    /* 顯示為 inline-block */
+    display: inline-block;
+    
+    /* 內邊距 */
+    padding: 5px 10px;
+    
+    /* 圓角 */
+    border-radius: 12px;
+    
+    /* 字型大小 */
+    font-size: 12px;
+    
+    /* 字重：粗體 */
+    font-weight: bold;
+}
+
+/* 待審核（黃色） */
+.badge-pending {
+    background-color: #ffc107;
+    color: #856404;
+}
+
+/* 已認證（綠色） */
+.badge-approved {
+    background-color: #28a745;
+    color: white;
+}
+
+/* 不通過（紅色） */
+.badge-rejected {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* ==========================================
+   表格樣式
+   ========================================== */
+
+table {
+    /* 寬度：100% */
+    width: 100%;
+    
+    /* 邊框合併 */
+    border-collapse: collapse;
+    
+    /* 下方外邊距 */
+    margin-bottom: 20px;
+}
+
+/* 表格標題列 */
+thead {
+    background-color: #34495e;
+    color: white;
+}
+
+/* 表格儲存格 */
+th, td {
+    /* 內邊距 */
+    padding: 12px;
+    
+    /* 文字對齊 */
+    text-align: left;
+    
+    /* 底部邊框 */
+    border-bottom: 1px solid #ddd;
+}
+
+/* 表格內容列 hover 效果 */
+tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* ==========================================
+   響應式設計（手機版）
+   ========================================== */
+
+/* 螢幕寬度小於 768px 時（平板和手機） */
+@media (max-width: 768px) {
+    /* 導航列改為垂直排列 */
+    .navbar .container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .navbar-menu {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+    
+    /* 按鈕群組改為垂直排列 */
+    .btn-group {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+    
+    /* 縮小容器內邊距 */
+    .container,
+    .container-small {
+        padding: 15px;
+    }
+    
+    /* 縮小卡片內邊距 */
+    .card {
+        padding: 20px;
+    }
+}
