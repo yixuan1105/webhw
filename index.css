@@ -1,0 +1,268 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ==========================================
+   整體頁面樣式
+   ========================================== */
+body {
+    /* 字型設定 */
+    font-family: 'Microsoft JhengHei', Arial, sans-serif;
+    
+    /* **可愛又專業調整：清新藍綠色漸層** */
+    background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%);
+    
+    /* 最小高度：填滿整個視窗 */
+    min-height: 100vh;
+    
+    /* 使用 Flexbox 置中 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* 內邊距 */
+    padding: 20px;
+}
+
+/* ==========================================
+   主要容器
+   ========================================== */
+.main-container {
+    /* 背景顏色：白色 */
+    background: white;
+    
+    /* 圓角：保持柔和 */
+    border-radius: 20px;
+    
+    /* 內邊距 */
+    padding: 60px 40px;
+    
+    /* 陰影效果：柔和感 */
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    
+    /* 最大寬度 */
+    max-width: 600px;
+    
+    /* 寬度：100% */
+    width: 100%;
+    
+    /* 文字置中 */
+    text-align: center;
+}
+
+/* ==========================================
+   標題樣式
+   ========================================== */
+h1 {
+    /* 文字顏色：深藍色系 */
+    color: #1a2c4e;
+    
+    /* 字型大小 */
+    font-size: 32px;
+    
+    /* 下方外邊距 */
+    margin-bottom: 15px;
+}
+
+/* 副標題 */
+.subtitle {
+    /* 文字顏色：柔和灰色 */
+    color: #607d8b;
+    
+    /* 字型大小 */
+    font-size: 16px;
+    
+    /* 下方外邊距 */
+    margin-bottom: 40px;
+    
+    /* 行高 */
+    line-height: 1.6;
+}
+
+/* ==========================================
+   按鈕區域
+   ========================================== */
+.button-group {
+    /* 使用 Flexbox 布局 */
+    display: flex;
+    
+    /* 方向：垂直排列 */
+    flex-direction: column;
+    
+    /* 按鈕之間的間距 */
+    gap: 15px;
+    
+    /* 下方外邊距 */
+    margin-bottom: 40px;
+}
+
+/* 按鈕基礎樣式 */
+.btn {
+    /* 內邊距 */
+    padding: 16px 32px;
+    
+    /* 移除邊框 */
+    border: none;
+    
+    /* 圓角 */
+    border-radius: 10px;
+    
+    /* 字型大小 */
+    font-size: 16px;
+    
+    /* 字重：粗體 */
+    font-weight: bold;
+    
+    /* 游標：手指 */
+    cursor: pointer;
+    
+    /* 移除文字底線 */
+    text-decoration: none;
+    
+    /* 顯示為區塊 */
+    display: block;
+    
+    /* 過渡效果 */
+    transition: all 0.3s;
+}
+
+/* 主要按鈕（登入） */
+.btn-primary {
+    /* **可愛又專業調整：專業藍漸層** */
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    
+    /* 文字顏色：白色 */
+    color: white;
+}
+
+.btn-primary:hover {
+    /* hover 時向上移動 */
+    transform: translateY(-3px);
+    
+    /* 增強陰影 */
+    box-shadow: 0 8px 20px rgba(79,172,254,0.6);
+}
+
+/* 次要按鈕（搜尋人才） */
+.btn-secondary {
+    /* 背景顏色：白色 */
+    background: white;
+    
+    /* 文字顏色：專業藍 */
+    color: #4facfe;
+    
+    /* 邊框：專業藍 */
+    border: 2px solid #4facfe;
+}
+
+.btn-secondary:hover {
+    /* hover 時改變背景和文字顏色 */
+    background: #4facfe;
+    color: white;
+    
+    /* 向上移動 */
+    transform: translateY(-3px);
+    
+    /* 增強陰影 */
+    box-shadow: 0 8px 20px rgba(79,172,254,0.4);
+}
+
+/* ==========================================
+   特色說明區域
+   ========================================== */
+.features {
+    /* 上方邊框線 */
+    border-top: 1px solid #ecf0f1;
+    
+    /* 上方內邊距 */
+    padding-top: 30px;
+}
+
+.features h2 {
+    /* 文字顏色 */
+    color: #1a2c4e;
+    
+    /* 字型大小 */
+    font-size: 20px;
+    
+    /* 下方外邊距 */
+    margin-bottom: 20px;
+}
+
+/* 特色列表 */
+.feature-list {
+    /* 文字對齊：左對齊 */
+    text-align: left;
+    
+    /* 移除預設的 ul 樣式 */
+    list-style: none;
+}
+
+.feature-list li {
+    /* 內邊距 */
+    padding: 10px 0;
+    
+    /* 文字顏色 */
+    color: #555;
+    
+    /* 行高 */
+    line-height: 1.6;
+}
+
+/* 列表項目前的圖示 */
+.feature-list li::before {
+    /* 內容：打勾符號 */
+    content: "✓ ";
+    
+    /* **可愛又專業調整：清新淺藍色** */
+    color: #00c6ff;
+    
+    /* 字重：粗體 */
+    font-weight: bold;
+    
+    /* 右方外邊距 */
+    margin-right: 10px;
+}
+
+/* ==========================================
+   頁尾
+   ========================================== */
+.footer {
+    /* 上方外邊距 */
+    margin-top: 30px;
+    
+    /* 文字顏色：淺灰色 */
+    color: #95a5a6;
+    
+    /* 字型大小 */
+    font-size: 12px;
+}
+
+/* ==========================================
+   響應式設計（手機版）
+   ========================================== */
+@media (max-width: 480px) {
+    /* 縮小主容器內邊距 */
+    .main-container {
+        padding: 40px 25px;
+    }
+    
+    /* 縮小標題字型 */
+    h1 {
+        font-size: 26px;
+    }
+    
+    /* 縮小副標題字型 */
+    .subtitle {
+        font-size: 14px;
+    }
+    
+    /* 縮小按鈕內邊距 */
+    .btn {
+        padding: 14px 24px;
+        font-size: 14px;
+    }
+}

@@ -114,124 +114,13 @@ if (isset($_GET['error'])) {
     
     <!-- 設定 viewport，讓網頁在手機上正常顯示（響應式設計） -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
     <!-- 網頁標題（顯示在瀏覽器分頁） -->
     <title>登入系統 - 學生成果管理平台</title>
-    
-    <!-- 內嵌 CSS 樣式（也可以改用外部 CSS 檔案） -->
-    <style>
-        /* 重置預設樣式 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        /* 設定整個頁面的樣式 */
-        body {
-            font-family: 'Microsoft JhengHei', Arial, sans-serif; /* 使用微軟正黑體 */
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* 漸層背景 */
-            min-height: 100vh; /* 最小高度為視窗高度 */
-            display: flex; /* 使用 Flexbox 布局 */
-            justify-content: center; /* 水平置中 */
-            align-items: center; /* 垂直置中 */
-            padding: 20px;
-        }
-        
-        /* 登入表單容器 */
-        .login-container {
-            background: white;
-            padding: 40px;
-            border-radius: 10px; /* 圓角 */
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2); /* 陰影效果 */
-            width: 100%;
-            max-width: 400px; /* 最大寬度 */
-        }
-        
-        /* 標題樣式 */
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-            font-size: 24px;
-        }
-        
-        /* 錯誤訊息樣式 */
-        .error-message {
-            background: #fee;
-            color: #c33;
-            padding: 12px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            border-left: 4px solid #c33;
-            font-size: 14px;
-        }
-        
-        /* 表單群組（包含 label 和 input） */
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        /* label 標籤樣式 */
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: bold;
-            font-size: 14px;
-        }
-        
-        /* 輸入框樣式 */
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-            transition: border-color 0.3s; /* 過渡效果 */
-        }
-        
-        /* 輸入框聚焦時的樣式 */
-        input[type="text"]:focus,
-        input[type="password"]:focus {
-            outline: none;
-            border-color: #667eea; /* 改變邊框顏色 */
-        }
-        
-        /* 登入按鈕樣式 */
-        .login-button {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer; /* 滑鼠游標變成手指 */
-            transition: transform 0.2s; /* 過渡效果 */
-        }
-        
-        /* 登入按鈕 hover 效果 */
-        .login-button:hover {
-            transform: translateY(-2px); /* 向上移動 2px */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        
-        /* 登入按鈕按下時的效果 */
-        .login-button:active {
-            transform: translateY(0);
-        }
-        
-        /* 底部提示文字 */
-        .footer-text {
-            text-align: center;
-            margin-top: 20px;
-            color: #888;
-            font-size: 12px;
-        }
-    </style>
+    <link rel="stylesheet" href="login.css">
+   
 </head>
 <body>
     <!-- 登入表單容器 -->
