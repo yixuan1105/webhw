@@ -46,7 +46,7 @@ function handleLogin($username, $password) {
     // password_verify() 是 PHP 內建函數，用來驗證明文密碼與加密後的 hash 是否匹配
     // $password：使用者輸入的明文密碼
     // $user['password']：資料庫中儲存的加密密碼（應該是用 password_hash() 產生的）
-    if (password_verify($password, $user['password'])) {
+    if ($password === $user['password']) {
         
         // ----------------------------------------
         // 步驟 3：密碼正確，建立 Session
