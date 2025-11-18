@@ -2,7 +2,7 @@
 <?php  
 //要查網頁的時候:輸入http://127.0.0.1/webhw/.php
 // 定義資料庫主機位置，127.0.0.1 是本機，3307 是 MySQL 的埠號
-define('DB_HOST', '127.0.0.1:3307');
+define('DB_HOST', '127.0.0.1');
 
 // 定義要連線的資料庫名稱
 define('DB_NAME', 'web_student');

@@ -1,79 +1,91 @@
 <?php
 // ==========================================
-// index.php - 網站首頁
+// index.php - 網站首頁 (新版：成果展示)
 // ==========================================
-// 功能：提供登入和搜尋的入口
 
-// 啟動 Session（檢查是否已登入）
-session_start();
+// 步驟 1：引入資料庫
+require_once('db.php');
 
-// 如果使用者已經登入，直接導向對應頁面
-if (isset($_SESSION['user_id'])) {
-    // 檢查使用者角色
-    if ($_SESSION['user_role'] === 'admin') {
-        // 管理員：導向後台
-        header("Location: admin/dashboard.php");
-    } else {
-        // 學生：導向個人頁面
-        header("Location: profile.php");
+// 步驟 2：定義此頁面專屬的資訊
+$page_title = '成果展示 - 學生學習成果認證系統';
+
+// ** 變更點：我們不再載入 index.css **
+// 我們改為載入 admin.css，因為它有 .students-grid 和 .student-card 的漂亮樣式
+// (common.css 會由 header.php 自動載入)
+$page_css_files = ['admin.css'];
+
+// 步驟 3：引入共用的 header.php
+// (這會自動啟動 session 並輸出 <head> 和導覽列)
+require_once('header.php'); 
+
+// 步驟 4：從資料庫撈取所有學生資料
+// ** 注意：這是一個範例查詢 **
+// 您需要根據您的資料庫結構 (例如 profile 表格) 來擴充這個 SQL
+try {
+    // 從 users 表格撈取所有學生
+    $sql = "SELECT id, name FROM users WHERE role = 'student'";
+    $students_from_db = fetchAll($sql);
+    
+    // ** 暫時處理：因為我不知道您儲存照片和簡介的欄位 **
+    // 
+    // 您未來需要修改這段，改成從您的 profile 表格撈取真實的照片和簡介
+    //
+    $students = [];
+    foreach ($students_from_db as $student) {
+        $students[] = [
+            'id' => $student['id'],
+            'name' => $student['name'],
+            'photo' => 'https://via.placeholder.com/100', // 暫時：請替換成您的照片欄位
+            'intro' => '學生簡介/科系...' // 暫時：請替換成您的簡介欄位
+        ];
     }
-    exit();
+
+} catch (PDOException $e) {
+    // 資料庫查詢失敗
+    $students = [];
+    echo '<div class="container"><div class="alert alert-error">無法載入學生資料： ' . htmlspecialchars($e->getMessage()) . '</div></div>';
 }
 ?>
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <!-- 設定網頁編碼 -->
-    <meta charset="UTF-8">
-    
-    <!-- 響應式設計 viewport 設定 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
-    <!-- 網頁標題 -->
-    <title>學生學習成果認證系統</title>
-    <link rel="stylesheet" href="index.css">
-    
-</head>
-<body>
-    <!-- 主要容器 -->
-    <div class="main-container">
-        <!-- 標題區域 -->
-        <h1>🎓 學生學習成果認證系統</h1>
-        <p class="subtitle">
-            展示您的專業技能與學習成果<br>
-            讓才華被看見
-        </p>
+
+<div class="container" style="padding-top: 40px; padding-bottom: 40px;">
+
+    <h2 style="text-align: center; margin-bottom: 30px;">瀏覽學生專案與成果</h2>
+
+    <div class="filter-bar">
+        <label for="filter-skill">依技能搜尋:</label>
+        <input type="text" id="filter-skill" name="skill_search" placeholder="例如：PHP, 攝影, 專案管理...">
         
-        <!-- 按鈕區域 -->
-        <div class="button-group">
-            <!-- 登入按鈕 -->
-            <a href="login.php" class="btn btn-primary">
-                🔐 登入系統
-            </a>
-            
-            <!-- 搜尋人才按鈕（訪客功能） -->
-            <a href="search.php" class="btn btn-secondary">
-                🔍 搜尋人才
-            </a>
-        </div>
+        <label for="filter-major">依科系:</label>
+        <select id="filter-major" name="major">
+            <option value="">所有科系</option>
+            <option value="cs">資訊工程</option>
+            <option value="design">數位設計</option>
+        </select>
         
-        <!-- 特色說明 -->
-        <div class="features">
-            <h2>系統特色</h2>
-            <ul class="feature-list">
-                <li>學生可以建立個人檔案，展示專業技能</li>
-                <li>上傳學習成果，包含證照、競賽、專長等</li>
-                <li>管理員審核認證，確保成果真實性</li>
-                <li>訪客可搜尋符合需求的專業人才</li>
-            </ul>
         </div>
+
+    <div class.="students-grid">
         
-        <!-- 頁尾 -->
-        <div class="footer">
-            © 2025 學生學習成果認證系統
-        </div>
-    </div>
-</body>
-</html>
+        <?php if (empty($students)): ?>
+            <p style="text-align: center; grid-column: 1 / -1;">目前沒有學生資料。</p>
+        
+        <?php else: ?>
+            <?php foreach ($students as $student): ?>
+                
+                <div class="student-card">
+                    <img src="<?php echo htmlspecialchars($student['photo']); ?>" alt="<?php echo htmlspecialchars($student['name']); ?> 的大頭貼">
+                    <h3><?php echo htmlspecialchars($student['name']); ?></h3>
+                    <p><?php echo htmlspecialchars($student['intro']); ?></p>
+                    
+                    <a href="profile_view.php?id=<?php echo $student['id']; ?>" class="btn btn-primary btn-sm">
+                        查看完整檔案
+                    </a>
+                </div>
+
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+    </div> </div> <?php
+// 步驟 6：引入共用的 footer.php
+require_once('footer.php'); 
+?>
