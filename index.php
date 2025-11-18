@@ -81,7 +81,7 @@ try {
 
 <div class="container" style="padding-top: 40px; padding-bottom: 40px;">
 
-    <h2 style="text-align: center; margin-bottom: 30px;">瀏覽學生專案與成果</h2>
+    <h2 style="text-align: center; margin-bottom: 30px;">人才搜尋</h2>
 
     <form method="GET" action="index.php" class="filter-bar" style="flex-wrap: wrap;">
         
@@ -103,7 +103,7 @@ try {
                 type="text" 
                 id="search_skill" 
                 name="search_skill" 
-                placeholder="例如：PHP, 攝影..." 
+                placeholder="例如:PHP, 攝影..." 
                 class="form-control"
                 value="<?php echo htmlspecialchars($search_skill); ?>"
             >
