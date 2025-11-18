@@ -56,11 +56,11 @@ $base_path = '/webhw/';
             <ul class="navbar-menu" style="margin: 0;">
                 <?php if ($is_logged_in): ?>
                     <li style="padding: 8px 10px; color: #eee;">
-                        您好, <?php echo htmlspecialchars($user_name); ?>
+                        <?php echo htmlspecialchars($user_name); ?>
                     </li>
                     
                     <?php if ($user_role === 'admin'): ?>
-                        <li><a href="<?php echo $base_path; ?>admin/dashboard.php">審核列表</a></li>
+                        <li><a href="<?php echo $base_path; ?>admin/review.php">審核列表</a></li>
                     <?php else: ?>
                         <li><a href="<?php echo $base_path; ?>profile.php">個人檔案</a></li>
                     <?php endif; ?>
