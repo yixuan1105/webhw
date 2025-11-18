@@ -11,7 +11,7 @@ define('DB_NAME', 'web_student');
 define('DB_USER', 'root');
 
 // 定義資料庫登入密碼（開發環境通常為空，生產環境務必設定強密碼）
-define('DB_PASS', '');
+define('DB_PASS', 'Peijun0629');
 
 // ==========================================
 // 資料庫連線類別（使用單例模式）

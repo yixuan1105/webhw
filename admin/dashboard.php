@@ -31,7 +31,7 @@ $admin_name = htmlspecialchars($_SESSION['user_name'] ?? '管理員');
             <a href="user_management.php" class="btn btn-secondary">使用者管理</a>
             
             <a href="../logout.php" class="btn btn-danger float-end">
-                🚪 登出系統
+                登出系統
             </a>
         </div>
 
