@@ -60,7 +60,7 @@ $base_path = '/webhw/';
                     </li>
                     
                     <?php if ($user_role === 'admin'): ?>
-                        <li><a href="<?php echo $base_path; ?>admin/dashboard.php">管理後台</a></li>
+                        <li><a href="<?php echo $base_path; ?>admin/dashboard.php">審核列表</a></li>
                     <?php else: ?>
                         <li><a href="<?php echo $base_path; ?>profile.php">個人檔案</a></li>
                     <?php endif; ?>

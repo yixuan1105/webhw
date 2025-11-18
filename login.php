@@ -15,13 +15,9 @@ $error_message = '';
 
 // 如果使用者已經登入，直接導向對應頁面
 if (isUserLoggedIn()) {
-    // 根據使用者角色導向不同頁面
-    if ($_SESSION['user_role'] === 'admin') {
-        header("Location: index.php");
-    } else {
-        header("Location: profile.php");
-    }
-    exit();
+    // 不論使用者角色為何，一律導向到 index.php
+    header("Location: index.php");
+    exit(); // 確保導向後立即停止腳本執行
 }
 
 // ==========================================

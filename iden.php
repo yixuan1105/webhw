@@ -70,16 +70,8 @@ function handleLogin($username, $password) {
         // ----------------------------------------
         
         // 檢查使用者角色是否為管理員
-        if ($user['role'] === 'admin') {
-            // 管理員：導向後台管理頁面
-            header("Location: admin/dashboard.php");
-        } else {
-            // 一般學生：導向個人資料頁面
-            header("Location: profile.php");
-        }
-        
-        // exit() 確保導向後停止執行後續程式碼
-        exit();
+        header("Location: index.php");
+            exit();
         
     } else {
         // 密碼錯誤：返回錯誤訊息
