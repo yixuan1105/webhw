@@ -17,7 +17,7 @@ $error_message = '';
 if (isUserLoggedIn()) {
     // 根據使用者角色導向不同頁面
     if ($_SESSION['user_role'] === 'admin') {
-        header("Location: admin/dashboard.php");
+        header("Location: index.php");
     } else {
         header("Location: profile.php");
     }
