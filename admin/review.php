@@ -355,6 +355,6 @@ $status_map = [
 </div> <!-- .container -->
 
 <?php
-// 步驟 7：引入共用的 footer.php（往上一層找）
+// 步驟 ：引入共用的 footer.php（往上一層找）
 require_once('../footer.php'); 
 ?>
