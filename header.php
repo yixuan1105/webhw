@@ -63,6 +63,7 @@ $base_path = '/webhw/';
                         <li><a href="<?php echo $base_path; ?>admin/review.php">審核列表</a></li>
                     <?php else: ?>
                         <li><a href="<?php echo $base_path; ?>profile.php">個人檔案</a></li>
+                        <li><a href="<?php echo $base_path; ?>achievement.php">成果列表</a></li>
                     <?php endif; ?>
 
                     <li><a href="<?php echo $base_path; ?>logout.php" style="background-color: #e74c3c; padding: 8px 15px;">登出</a></li>
