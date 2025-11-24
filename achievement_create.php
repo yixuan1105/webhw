@@ -1,12 +1,11 @@
 <?php
-// (新增成果頁面)
+
 require_once('iden.php');
 require_once('header.php');
 requireLogin();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // 1. 接收 category
-    $category = $_POST['category'] ?? ''; // 新增
+    $category = $_POST['category'] ?? '';
     $title = $_POST['title'] ?? '';
     $description = $_POST['description'] ?? '';
     $user_id = $_SESSION['user_id'];
@@ -14,11 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($title) || empty($category)) { // 檢查類別是否為空
         $error = "標題與類別均為必填";
     } else {
-        // 2. SQL 語法加入 category 欄位
+
         $sql = "INSERT INTO achievements (user_id, category, title, description, status, created_at) VALUES (?, ?, ?, ?, 'pending', NOW())";
         
         try {
-            // 3. 執行時帶入 $category 參數
             execute($sql, [$user_id, $category, $title, $description]);
             header("Location: achievement.php");
             exit();

@@ -12,23 +12,21 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'] ?? '';
     $title = $_POST['title'] ?? '';
-    $category = $_POST['category'] ?? ''; // 新增 category
+    $category = $_POST['category'] ?? '';
     $description = $_POST['description'] ?? '';
     
-    // 再次確認這筆資料屬於該學生 (防止惡意修改)
+    // 再次確認這筆資料屬於該學生
     $check_sql = "SELECT id FROM achievements WHERE id = ? AND user_id = ?";
     if (fetchOne($check_sql, [$id, $user_id])) {
         
         if (empty($title) || empty($category)) {
             $error = "標題與類別不能為空";
         } else {
-            // 更新資料庫
-            // 注意：通常編輯後，狀態會重置為 'pending' (需重新審核)，或保持原狀
-            // 這裡我們先假設編輯後狀態不變，或者您可以改成 status = 'pending'
-            $sql = "UPDATE achievements SET title = ?, category = ?, description = ? WHERE id = ?";
-            
+            // 更新資料時，強制將 status 改回 'pending'，並清空 reviewed_by
+            $sql = "UPDATE achievements SET title = ?, category = ?, description = ?, status = 'pending', reviewed_by = NULL WHERE id = ?";
             try {
                 execute($sql, [$title, $category, $description, $id]);
+                
                 // 更新成功，導回列表
                 header("Location: achievement.php");
                 exit();
@@ -41,12 +39,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// 讀取舊資料 (顯示在表單上)
-// 查詢該筆資料
+// 讀取舊資料
 $sql = "SELECT * FROM achievements WHERE id = ? AND user_id = ?";
 $row = fetchOne($sql, [$id, $user_id]);
 
-// 如果找不到資料 (例如 ID 錯誤或不是該學生的)，導回列表
+// 如果找不到資料，導回列表
 if (!$row) {
     header("Location: achievement.php");
     exit();
