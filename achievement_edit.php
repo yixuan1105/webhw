@@ -8,9 +8,7 @@ $user_id = $_SESSION['user_id'];
 $id = $_GET['id'] ?? ''; // 從網址取得成果 ID
 $error = '';
 
-// ==========================================
-// 部分 1：處理表單送出 (更新資料)
-// ==========================================
+//處理表單送出 (更新資料)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'] ?? '';
     $title = $_POST['title'] ?? '';
@@ -43,9 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// ==========================================
-// 部分 2：讀取舊資料 (顯示在表單上)
-// ==========================================
+// 讀取舊資料 (顯示在表單上)
 // 查詢該筆資料
 $sql = "SELECT * FROM achievements WHERE id = ? AND user_id = ?";
 $row = fetchOne($sql, [$id, $user_id]);
@@ -66,7 +62,7 @@ if (!$row) {
         <?php endif; ?>
 
         <form method="POST" action="achievement_edit.php?id=<?php echo $id; ?>">
-            <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id']); ?>">
+            <input type="hidden" name="id" value="<?php echo ($row['id']); ?>">
             
             <div class="form-group">
                 <label for="category">成果類別 <span class="required">*</span></label>
@@ -82,12 +78,12 @@ if (!$row) {
             <div class="form-group">
                 <label for="title">成果標題 <span class="required">*</span></label>
                 <input type="text" id="title" name="title" class="form-control" 
-                       value="<?php echo htmlspecialchars($row['title']); ?>" required>
+                       value="<?php echo ($row['title']); ?>" required>
             </div>
 
             <div class="form-group">
                 <label for="description">詳細說明</label>
-                <textarea id="description" name="description" class="form-control" rows="5"><?php echo htmlspecialchars($row['description']); ?></textarea>
+                <textarea id="description" name="description" class="form-control" rows="5"><?php echo ($row['description']); ?></textarea>
             </div>
 
             <div class="btn-group">

@@ -270,19 +270,19 @@ $status_map = [
                         <td>
                             <a href="../profile_view.php?id=<?php echo $ach['student_id']; ?>" 
                                style="color: #3498db; text-decoration: none;">
-                                <?php echo htmlspecialchars($ach['student_name']); ?>
+                                <?php echo ($ach['student_name']); ?>
                             </a>
                         </td>
                         
                         <!-- 成果標題 -->
                         <td>
-                            <strong><?php echo htmlspecialchars($ach['title']); ?></strong>
+                            <strong><?php echo ($ach['title']); ?></strong>
                             <?php if (!empty($ach['description'])): ?>
                                 <br>
                                 <small style="color: #7f8c8d;">
                                     <?php 
                                     // 只顯示前 50 個字元
-                                    $desc = htmlspecialchars($ach['description']);
+                                    $desc = ($ach['description']);
                                     echo mb_substr($desc, 0, 50) . (mb_strlen($desc) > 50 ? '...' : ''); 
                                     ?>
                                 </small>

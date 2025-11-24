@@ -42,12 +42,12 @@ $achievements = fetchAll($sql, [$current_user_id]);
                         <tr>
                             <td>
                                 <span class="badge bg-info text-dark">
-                                    <?php echo htmlspecialchars($row['category']); ?>
+                                    <?php echo ($row['category']); ?>
                                 </span>
                             </td>
                             
-                            <td><?php echo htmlspecialchars($row['title']); ?></td>
-                            <td><?php echo htmlspecialchars($row['created_at']); ?></td>
+                            <td><?php echo ($row['title']); ?></td>
+                            <td><?php echo ($row['created_at']); ?></td>
                             
                             <td>
                                 <?php if ($row['status'] === 'approved'): ?>

@@ -8,7 +8,7 @@ require_once('../iden.php'); // 注意路徑: 從 admin/ 跳回上層目錄
 requireAdminLogin(); // iden.php 中的函式
 
 // 取得登入者的名稱 (用於歡迎訊息)
-$admin_name = htmlspecialchars($_SESSION['user_name'] ?? '管理員');
+$admin_name = ($_SESSION['user_name'] ?? '管理員');
 
 ?>
 <!DOCTYPE html>

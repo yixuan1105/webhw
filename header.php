@@ -32,7 +32,7 @@ $base_path = '/webhw/';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($page_title); ?></title>
+    <title><?php echo ($page_title); ?></title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
@@ -40,7 +40,7 @@ $base_path = '/webhw/';
     <link rel="stylesheet" href="<?php echo $base_path; ?>common.css">
     
     <?php foreach ($page_css_files as $css_file): ?>
-        <link rel="stylesheet" href="<?php echo $base_path . htmlspecialchars($css_file); ?>">
+        <link rel="stylesheet" href="<?php echo $base_path . ($css_file); ?>">
     <?php endforeach; ?>
     
 </head>
@@ -56,7 +56,7 @@ $base_path = '/webhw/';
             <ul class="navbar-menu" style="margin: 0;">
                 <?php if ($is_logged_in): ?>
                     <li style="padding: 8px 10px; color: #eee;">
-                        <?php echo htmlspecialchars($user_name); ?>
+                        <?php echo ($user_name); ?>
                     </li>
                     
                     <?php if ($user_role === 'admin'): ?>

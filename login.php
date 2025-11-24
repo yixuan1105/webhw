@@ -120,9 +120,8 @@ if (isset($_GET['error'])) {
         <!-- 錯誤訊息區域（只在有錯誤時顯示） -->
         <?php if ($error_message): ?>
             <div class="error-message">
-                <!-- 使用 htmlspecialchars() 防止 XSS 攻擊 -->
                 <!-- ENT_QUOTES 會轉義單引號和雙引號 -->
-                <?php echo htmlspecialchars($error_message, ENT_QUOTES, 'UTF-8'); ?>
+                <?php echo ($error_message, ENT_QUOTES, 'UTF-8'); ?>
             </div>
         <?php endif; ?>
 
@@ -132,7 +131,7 @@ if (isset($_GET['error'])) {
         <form method="POST" action="login.php">
             
             <!-- CSRF Token 隱藏欄位（防止 CSRF 攻擊） -->
-            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES, 'UTF-8'); ?>">
+            <input type="hidden" name="csrf_token" value="<?php echo ($csrf_token, ENT_QUOTES, 'UTF-8'); ?>">
             
             <!-- 帳號輸入欄位 -->
             <div class="form-group">
@@ -152,7 +151,7 @@ if (isset($_GET['error'])) {
                     required 
                     maxlength="50"
                     autocomplete="username"
-                    value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8') : ''; ?>"
+                    value="<?php echo isset($_POST['username']) ? ($_POST['username'], ENT_QUOTES, 'UTF-8') : ''; ?>"
                 >
             </div>
 
