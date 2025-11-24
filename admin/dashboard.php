@@ -25,7 +25,7 @@ $admin_name = ($_SESSION['user_name'] ?? '管理員');
         <p class="lead">這是管理員的專屬頁面，您擁有最高的系統權限。</p>
 
         <div class="mt-4">
-            <a href="pending_list.php" class="btn btn-primary me-2">審核待處理成果</a>
+            <a href="review.php" class="btn btn-primary me-2">審核待處理成果</a>
             <a href="user_management.php" class="btn btn-secondary">使用者管理</a>
             
             <a href="../logout.php" class="btn btn-danger float-end">
