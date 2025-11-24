@@ -3,37 +3,24 @@
 // 引入身份驗證模組
 require_once('iden.php');
 
-// 初始化錯誤訊息變數（用來顯示登入失敗訊息）
+// 初始化錯誤訊息變數（顯示登入失敗訊息）
 $error_message = '';
 
-// 如果使用者已經登入，直接導向對應頁面
+// 使用者登入，導向對應頁面
 if (isUserLoggedIn()) {
     //導向到 index.php
     header("Location: index.php");
     exit(); // 確保導向後立即停止腳本執行
 }
 
-// ==========================================
-// 產生 CSRF Token（用於防止跨站請求偽造攻擊）
-// ==========================================
-
-// 呼叫 auth.php 中的 generateCSRFToken() 函數
-// 此 Token 會存在 Session 中，並在表單提交時進行驗證
-// 🚨 注意：您這裡呼叫的 generateCSRFToken() 和 verifyCSRFToken() 
-// 必須在您的 iden.php 或其他引入的檔案中有定義！
+//呼叫 iden.php 中的 generateCSRFToken() 函數
+//Token 會存在 Session 中，並在表單提交時進行驗證
 $csrf_token = generateCSRFToken();
 
-// ==========================================
 // 處理表單提交（POST 請求）
-// ==========================================
-
 // 檢查是否為 POST 請求（即使用者按下「登入」按鈕）
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
-    // ----------------------------------------
-    // 步驟 1：驗證 CSRF Token
-    // ----------------------------------------
-    
+    //驗證 CSRF Token
     // 取得使用者提交的 CSRF Token（從隱藏欄位）
     $submitted_token = $_POST['csrf_token'] ?? '';
     
