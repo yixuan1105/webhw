@@ -19,6 +19,8 @@ if (isUserLoggedIn()) {
 
 // 呼叫 auth.php 中的 generateCSRFToken() 函數
 // 此 Token 會存在 Session 中，並在表單提交時進行驗證
+// 🚨 注意：您這裡呼叫的 generateCSRFToken() 和 verifyCSRFToken() 
+// 必須在您的 iden.php 或其他引入的檔案中有定義！
 $csrf_token = generateCSRFToken();
 
 // ==========================================
@@ -98,51 +100,31 @@ if (isset($_GET['error'])) {
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <!-- 設定網頁編碼為 UTF-8，支援中文顯示 -->
     <meta charset="UTF-8">
     
-    <!-- 設定 viewport，讓網頁在手機上正常顯示（響應式設計） -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
-    <!-- 網頁標題（顯示在瀏覽器分頁） -->
     <title>登入系統 - 學生成果管理平台</title>
     <link rel="stylesheet" href="login.css">
-   
+    
 </head>
 <body>
-    <!-- 登入表單容器 -->
     <div class="login-container">
-        <!-- 頁面標題 -->
         <h1>🎓 學生/管理員登入</h1>
         
-        <!-- 錯誤訊息區域（只在有錯誤時顯示） -->
         <?php if ($error_message): ?>
             <div class="error-message">
-                <!-- ENT_QUOTES 會轉義單引號和雙引號 -->
-                <?php echo ($error_message, ENT_QUOTES, 'UTF-8'); ?>
+                <?php echo $error_message; ?>
             </div>
         <?php endif; ?>
 
-        <!-- 登入表單 -->
-        <!-- action="login.php" 表示提交到當前頁面 -->
-        <!-- method="POST" 使用 POST 方法提交（較安全） -->
         <form method="POST" action="login.php">
             
-            <!-- CSRF Token 隱藏欄位（防止 CSRF 攻擊） -->
-            <input type="hidden" name="csrf_token" value="<?php echo ($csrf_token, ENT_QUOTES, 'UTF-8'); ?>">
+            <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
             
-            <!-- 帳號輸入欄位 -->
             <div class="form-group">
                 <label for="username">帳號</label>
-                <!-- 
-                    id: 用於 label 的 for 屬性連結
-                    name: 提交表單時的參數名稱
-                    required: HTML5 必填驗證
-                    maxlength: 限制最大長度（防止惡意輸入）
-                    autocomplete: 允許瀏覽器自動填入
-                -->
                 <input 
                     type="text" 
                     id="username" 
@@ -151,11 +133,10 @@ if (isset($_GET['error'])) {
                     required 
                     maxlength="50"
                     autocomplete="username"
-                    value="<?php echo isset($_POST['username']) ? ($_POST['username'], ENT_QUOTES, 'UTF-8') : ''; ?>"
+                    value="<?php echo isset($_POST['username']) ? $_POST['username'] : ''; ?>"
                 >
             </div>
 
-            <!-- 密碼輸入欄位 -->
             <div class="form-group">
                 <label for="password">密碼</label>
                 <input 
@@ -169,11 +150,9 @@ if (isset($_GET['error'])) {
                 >
             </div>
 
-            <!-- 登入按鈕 -->
             <button type="submit" class="login-button">登入</button>
         </form>
         
-        <!-- 底部提示文字 -->
         <div class="footer-text">2025 學生成果管理平台</div>
     </div>
 </body>

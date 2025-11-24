@@ -36,7 +36,7 @@ $base_path = '/webhw/';
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css">
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="<?php echo $base_path; ?>common.css">
     
     <?php foreach ($page_css_files as $css_file): ?>
@@ -73,5 +73,6 @@ $base_path = '/webhw/';
                 <?php endif; ?>
             </ul>
         </div>
+        
     </nav>
 </header>
