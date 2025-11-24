@@ -41,7 +41,7 @@ if (!defined('FOOTER_INCLUDED')) {
             <div class="col-lg-3 col-md-6 mb-4">
                 <h5 class="text-uppercase fw-bold mb-3">聯繫我們</h5>
                 <p class="text-white-50">
-                    <i class="bi bi-geo-alt-fill me-2"></i> 台北市新莊區科技路 1 號
+                    <i class="bi bi-geo-alt-fill me-2"></i> 新北市新莊區科技路 1 號
                 </p>
                 <p class="text-white-50">
                     <i class="bi bi-envelope-fill me-2"></i> info@project.edu.tw

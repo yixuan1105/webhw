@@ -1,5 +1,5 @@
 <?php
-
+// (新增成果頁面)
 require_once('iden.php');
 require_once('header.php');
 requireLogin();
