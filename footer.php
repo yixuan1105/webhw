@@ -23,16 +23,16 @@ if (!defined('FOOTER_INCLUDED')) {
             <div class="col-lg-2 col-md-6 mb-4">
                 <h5 class="text-uppercase fw-bold mb-3">快速存取</h5>
                 <ul class="list-unstyled">
-                    <li><a href="../index.php" class="text-white-50 text-decoration-none">首頁</a></li>
-                    <li><a href="../login.php" class="text-white-50 text-decoration-none">登入</a></li>
-                    <li><a href="../profile.php" class="text-white-50 text-decoration-none">個人檔案</a></li>
+                    <li><a href="index.php" class="text-white-50 text-decoration-none">首頁</a></li>
+                    <li><a href="login.php" class="text-white-50 text-decoration-none">登入</a></li>
+                    <li><a href="profile.php" class="text-white-50 text-decoration-none">個人檔案</a></li>
                     </ul>
             </div>
             
             <div class="col-lg-3 col-md-6 mb-4">
                 <h5 class="text-uppercase fw-bold mb-3">系統資源</h5>
                 <ul class="list-unstyled">
-                    <li><a href="upload_achievement.php" class="text-white-50 text-decoration-none">成果上傳</a></li>
+                    <li><a href="achievement_create.php" class="text-white-50 text-decoration-none">成果上傳</a></li>
                     <li><a href="terms.php" class="text-white-50 text-decoration-none">服務條款</a></li>
                     <li><a href="privacy.php" class="text-white-50 text-decoration-none">隱私政策</a></li>
                 </ul>
