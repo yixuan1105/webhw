@@ -1,6 +1,4 @@
 <?php
-// test 123
-// 啟動 Session 加油
 // session_status() 檢查 Session 是否已經啟動，避免重複啟動
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
