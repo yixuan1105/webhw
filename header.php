@@ -42,31 +42,30 @@ $base_path = '/webhw/';
     
 </head>
 <body>
-
 <header>
     <nav class="navbar">
         <div class="container">
-            <h1 style="margin: 0; font-size: 20px;">
-                <a href="<?php echo $base_path; ?>index.php" style="color:white; text-decoration:none;">🎓 學生學習成果認證系統</a>
+            <h1 class="navbar-brand">
+                <a href="<?php echo $base_path; ?>index.php">🎓 學生學習成果認證系統</a>
             </h1>
             
-            <ul class="navbar-menu" style="margin: 0;">
-                <?php if ($is_logged_in): //使用者已登入（變數 $is_logged_in 為 true）。?>
-                    <li style="padding: 8px 10px; color: #eee;">
+            <ul class="navbar-menu">
+                <?php if ($is_logged_in): //使用者已登入 ?>
+                    <li class="nav-item user-info"> 
                         <?php echo ($user_name); ?>
                     </li>
                     
                     <?php if ($user_role === 'admin'): ?>
-                        <li><a href="<?php echo $base_path; ?>admin/review.php">審核列表</a></li>
+                        <li class="nav-item"><a href="<?php echo $base_path; ?>admin/review.php">審核列表</a></li>
                     <?php else: ?>
-                        <li><a href="<?php echo $base_path; ?>profile.php">個人檔案</a></li>
-                        <li><a href="<?php echo $base_path; ?>achievement.php">成果列表</a></li>
+                        <li class="nav-item"><a href="<?php echo $base_path; ?>profile.php">個人檔案</a></li>
+                        <li class="nav-item"><a href="<?php echo $base_path; ?>achievement.php">成果列表</a></li>
                     <?php endif; ?>
 
-                    <li><a href="<?php echo $base_path; ?>logout.php" style="background-color: #e74c3c; padding: 8px 15px;">登出</a></li>
+                    <li class="nav-item"><a href="<?php echo $base_path; ?>logout.php" class="btn-logout">登出</a></li>
                     
                 <?php else:  // 使用者未登入 ?> 
-                    <li><a href="<?php echo $base_path; ?>login.php" style="background-color: #3498db; padding: 8px 15px;">登入</a></li>
+                    <li class="nav-item"><a href="<?php echo $base_path; ?>login.php" class="btn-login">登入</a></li>
                 <?php endif; ?>
             </ul>
         </div>

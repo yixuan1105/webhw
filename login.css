@@ -25,7 +25,7 @@ body {
     font-family: 'Microsoft JhengHei', Arial, sans-serif;
     
     /* 設定漸層背景：從左上到右下，顏色從 #667eea 漸變到 #764ba2 */
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #879bf4 0%, #764ba2 100%);
     
     /* 最小高度為視窗高度（確保背景填滿整個螢幕） */
     min-height: 100vh;

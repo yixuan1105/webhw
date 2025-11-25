@@ -1,35 +1,22 @@
-/* ==========================================
-   admin.css - 管理員頁面樣式檔
-   ==========================================
-   適用於：admin/ 資料夾內的所有頁面
-   注意：需要同時引入 common.css
-   ========================================== */
+/* admin.css - 管理員頁面樣式檔
 
-/* ==========================================
-   管理員頁面整體布局
-   ========================================== */
+/* 讓點擊錨點時頁面平滑捲動 */
+html {
+    scroll-behavior: smooth;
+}
 
-/* 管理員頁面的 body 使用不同的背景 */
+/* 管理員頁面整體布局 */
+
 body.admin-page {
-    /* 漸層背景（深色系） */
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-/* ==========================================
-   管理員導航列（與一般導航列不同）
-   ========================================== */
+/* 管理員導航列 */
 
 .admin-navbar {
-    /* 背景顏色：深紫色 */
     background-color: #5a4a7e;
-    
-    /* 文字顏色：白色 */
     color: white;
-    
-    /* 內邊距 */
     padding: 15px 0;
-    
-    /* 陰影效果 */
     box-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
@@ -39,13 +26,11 @@ body.admin-page {
     align-items: center;
 }
 
-/* 管理員標題（加上圖示） */
 .admin-navbar h1::before {
     content: "🔧 ";
     font-size: 24px;
 }
 
-/* 管理員選單連結 */
 .admin-navbar a {
     color: white;
     text-decoration: none;
@@ -58,7 +43,6 @@ body.admin-page {
     background-color: rgba(255,255,255,0.2);
 }
 
-/* 登出按鈕特殊樣式 */
 .admin-navbar .logout-btn {
     background-color: #e74c3c;
     padding: 8px 20px;
@@ -69,112 +53,58 @@ body.admin-page {
     background-color: #c0392b;
 }
 
-/* ==========================================
-   儀表板統計卡片
-   ========================================== */
+/* 統計卡片 */
 
-/* 統計卡片容器（並排顯示） */
+/* 統計卡片容器：修復為 4 欄 (桌面版) */
 .dashboard-stats {
-    /* 使用 Grid 布局 */
     display: grid;
-    
-    /* 每行 3 個卡片 */
-    grid-template-columns: repeat(3, 1fr);
-    
-    /* 卡片之間的間距 */
+    grid-template-columns: repeat(4, 1fr); /* 修正: 設為 4 欄 */
     gap: 20px;
-    
-    /* 下方外邊距 */
     margin-bottom: 30px;
 }
 
 /* 統計卡片 */
 .stat-card {
-    /* 背景顏色：白色 */
     background: white;
-    
-    /* 內邊距 */
     padding: 30px;
-    
-    /* 圓角 */
     border-radius: 10px;
-    
-    /* 陰影效果 */
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    
-    /* 文字置中 */
     text-align: center;
-    
-    /* 過渡效果 */
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
 /* 統計卡片 hover 效果 */
 .stat-card:hover {
-    /* 向上移動 */
     transform: translateY(-5px);
-    
-    /* 增強陰影 */
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
 /* 統計卡片標題 */
 .stat-card h3 {
-    /* 文字顏色：深灰色 */
     color: #555;
-    
-    /* 字型大小 */
     font-size: 14px;
-    
-    /* 上方外邊距 */
     margin-bottom: 15px;
-    
-    /* 文字轉大寫 */
     text-transform: uppercase;
-    
-    /* 字間距 */
     letter-spacing: 1px;
 }
 
 /* 統計數字 */
 .stat-card .number {
-    /* 字型大小：超大 */
     font-size: 48px;
-    
-    /* 字重：粗體 */
     font-weight: bold;
-    
-    /* 文字顏色：主題色 */
     color: #667eea;
-    
-    /* 下方外邊距 */
     margin-bottom: 15px;
 }
 
 /* 統計卡片連結 */
 .stat-card a {
-    /* 顯示為區塊 */
     display: inline-block;
-    
-    /* 內邊距 */
     padding: 10px 20px;
-    
-    /* 背景顏色：漸層 */
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    
-    /* 文字顏色：白色 */
     color: white;
-    
-    /* 移除底線 */
     text-decoration: none;
-    
-    /* 圓角 */
     border-radius: 20px;
-    
-    /* 字型大小 */
     font-size: 14px;
-    
-    /* 過渡效果 */
     transition: transform 0.2s;
 }
 
@@ -195,40 +125,25 @@ body.admin-page {
     color: #e74c3c;
 }
 
-/* ==========================================
-   審核列表表格
-   ========================================== */
+/* 審核列表表格 */
 
 /* 審核表格容器 */
 .review-table {
-    /* 背景顏色：白色 */
     background: white;
-    
-    /* 圓角 */
     border-radius: 10px;
-    
-    /* 內邊距 */
     padding: 20px;
-    
-    /* 陰影效果 */
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    
-    /* 允許橫向捲動（手機版） */
     overflow-x: auto;
 }
 
 /* 審核表格 */
 .review-table table {
-    /* 寬度：100% */
     width: 100%;
-    
-    /* 最小寬度（避免在小螢幕上擠壓） */
     min-width: 800px;
 }
 
 /* 表格標題列 */
 .review-table thead {
-    /* 背景顏色：深紫色 */
     background-color: #5a4a7e;
 }
 
@@ -236,27 +151,38 @@ body.admin-page {
 .review-table th,
 .review-table td {
     padding: 15px;
+    vertical-align: middle; /* 確保內容垂直置中 */
 }
 
 /* 操作按鈕欄位 */
 .review-table .actions {
-    /* 使用 Flexbox 布局 */
     display: flex;
-    
-    /* 按鈕之間的間距 */
-    gap: 10px;
+    gap: 8px;
+    align-items: center;
 }
 
-/* 審核按鈕（通過） */
-.btn-approve {
-    background-color: #27ae60;
+/* 統一操作按鈕的樣式和寬度，達到整齊效果 */
+.btn-approve,
+.btn-reject,
+.btn-view {
+    /* 統一寬度，讓所有按鈕一樣長 */
+    min-width: 65px; 
+    text-align: center;
+    
+    /* 基本樣式 */
     color: white;
-    padding: 8px 16px;
+    padding: 8px 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 12px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+/* 審核按鈕（通過） */
+.btn-approve {
+    background-color: #27ae60;
 }
 
 .btn-approve:hover {
@@ -266,13 +192,6 @@ body.admin-page {
 /* 審核按鈕（不通過） */
 .btn-reject {
     background-color: #e74c3c;
-    color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 12px;
-    transition: background-color 0.3s;
 }
 
 .btn-reject:hover {
@@ -282,55 +201,28 @@ body.admin-page {
 /* 查看詳情按鈕 */
 .btn-view {
     background-color: #3498db;
-    color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 12px;
-    text-decoration: none;
-    display: inline-block;
-    transition: background-color 0.3s;
 }
 
 .btn-view:hover {
     background-color: #2980b9;
 }
 
-/* ==========================================
-   學生列表卡片
-   ========================================== */
+/* 學生列表卡片 */
 
 /* 學生列表容器（Grid 布局） */
 .students-grid {
-    /* 使用 Grid 布局 */
     display: grid;
-    
-    /* 每行 3 個卡片 */
     grid-template-columns: repeat(3, 1fr);
-    
-    /* 卡片之間的間距 */
     gap: 20px;
 }
 
 /* 學生卡片 */
 .student-card {
-    /* 背景顏色：白色 */
     background: white;
-    
-    /* 圓角 */
     border-radius: 10px;
-    
-    /* 內邊距 */
     padding: 20px;
-    
-    /* 陰影效果 */
     box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-    
-    /* 文字置中 */
     text-align: center;
-    
-    /* 過渡效果 */
     transition: transform 0.3s;
 }
 
@@ -340,81 +232,44 @@ body.admin-page {
 
 /* 學生照片 */
 .student-card img {
-    /* 寬度和高度 */
     width: 100px;
     height: 100px;
-    
-    /* 圓形 */
     border-radius: 50%;
-    
-    /* 物件適應方式：覆蓋 */
     object-fit: cover;
-    
-    /* 下方外邊距 */
     margin-bottom: 15px;
-    
-    /* 邊框 */
     border: 3px solid #667eea;
 }
 
 /* 學生姓名 */
 .student-card h3 {
-    /* 文字顏色 */
     color: #2c3e50;
-    
-    /* 下方外邊距 */
     margin-bottom: 10px;
 }
 
 /* 學生資訊 */
 .student-card p {
-    /* 文字顏色：淺灰色 */
     color: #7f8c8d;
-    
-    /* 字型大小 */
     font-size: 14px;
-    
-    /* 下方外邊距 */
     margin-bottom: 15px;
 }
 
-/* ==========================================
-   篩選器和搜尋列
-   ========================================== */
+/* 篩選器和搜尋列 */
 
 /* 篩選器容器 */
 .filter-bar {
-    /* 背景顏色：白色 */
     background: white;
-    
-    /* 圓角 */
     border-radius: 10px;
-    
-    /* 內邊距 */
     padding: 20px;
-    
-    /* 下方外邊距 */
     margin-bottom: 20px;
-    
-    /* 陰影效果 */
     box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-    
-    /* 使用 Flexbox 布局 */
     display: flex;
-    
-    /* 項目之間的間距 */
     gap: 15px;
-    
-    /* 垂直置中 */
     align-items: center;
 }
 
 /* 篩選器 label */
 .filter-bar label {
-    /* 字重：粗體 */
     font-weight: bold;
-    
-    /* 文字顏色 */
     color: #555;
 }
 
@@ -428,18 +283,14 @@ body.admin-page {
 
 /* 搜尋輸入框 */
 .filter-bar input[type="text"] {
-    /* 彈性寬度（佔據剩餘空間） */
     flex: 1;
-    
     padding: 10px;
     border: 2px solid #ddd;
     border-radius: 5px;
     font-size: 14px;
 }
 
-/* ==========================================
-   響應式設計（平板和手機）
-   ========================================== */
+/* 響應式設計（平板和手機）*/
 
 /* 螢幕寬度小於 992px 時（平板） */
 @media (max-width: 992px) {
@@ -481,5 +332,15 @@ body.admin-page {
     /* 操作按鈕改為垂直排列 */
     .review-table .actions {
         flex-direction: column;
+        align-items: stretch; /* 垂直排列時，按鈕佔滿整個寬度 */
+        gap: 5px; /* 垂直間距也縮小 */
+    }
+    
+    /* 垂直排列時，強制按鈕佔滿寬度 */
+    .btn-approve,
+    .btn-reject,
+    .btn-view {
+        width: 100%;
+        min-width: unset;
     }
 }

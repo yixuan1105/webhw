@@ -48,16 +48,17 @@ body {
 
 /* 導航列 */
 
+/* ... (保留所有原有的基礎樣式) ... */
+
+/* 導航列 */
+
 .navbar {
     /* 背景顏色：深色 */
     background-color: #2c3e50;
-    
     /* 文字顏色：白色 */
     color: white;
-    
     /* 內邊距 */
     padding: 15px 0;
-    
     /* 陰影效果 */
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
@@ -65,41 +66,69 @@ body {
 .navbar .container {
     /* 使用 Flexbox 布局 */
     display: flex;
-    
     /* 左右對齊（標題靠左，選單靠右） */
     justify-content: space-between;
-    
-    /* 垂直置中 */
+    /* 垂直置中 (這是對齊的關鍵) */
     align-items: center;
+    /* 確保 container 的 padding 不會影響 nav item 的垂直對齊 */
+    padding: 0 20px; 
 }
 
 /* 導航列標題 */
-.navbar h1 {
-    font-size: 24px;
+.navbar-brand { /* 使用 class 替換原來的 h1 */
+    margin: 0; 
+    font-size: 20px;
     font-weight: bold;
+}
+.navbar-brand a {
+    color: white;
+    text-decoration: none;
 }
 
 /* 導航列選單 */
 .navbar-menu {
     /* 移除預設的 ul 樣式 */
     list-style: none;
+    /* 移除 margin/padding */
+    margin: 0;
+    padding: 0;
     
     /* 使用 Flexbox 水平排列 */
     display: flex;
     
     /* 項目之間的間距 */
     gap: 20px;
+    
+    /* 垂直置中 (這是對齊的關鍵) */
+    align-items: center;
 }
+
+/* 新增：使用者名稱/資訊（無連結的文字項目） */
+.user-info {
+    /* 透過調整 padding 來與連結的 padding: 8px 15px; 匹配，實現垂直置中 */
+    padding: 8px 0; 
+    color: #eee; /* 稍微淺一點的白色 */
+    font-weight: normal;
+    font-size: 16px; /* 確保字體大小合理 */
+    
+    /* 確保其在 Flex 佈局中對齊 */
+    display: flex;
+    align-items: center;
+}
+
 
 /* 導航列連結 */
 .navbar-menu a {
+    /* 確保 display: inline-block 或 block 讓 padding 有效 */
+    display: inline-block; 
+    
     /* 文字顏色：白色 */
     color: white;
     
     /* 移除底線 */
     text-decoration: none;
     
-    /* 內邊距 */
+    /* 內邊距 (與 user-info 的 8px 匹配) */
     padding: 8px 15px;
     
     /* 圓角 */
@@ -113,6 +142,22 @@ body {
 .navbar-menu a:hover {
     background-color: rgba(255,255,255,0.1);
 }
+
+/* 登入/登出按鈕顏色 */
+.btn-login {
+    background-color: #3498db !important; /* 藍色 */
+}
+.btn-logout {
+    background-color: #e74c3c !important; /* 紅色 */
+}
+.btn-login:hover {
+    background-color: #2980b9 !important;
+}
+.btn-logout:hover {
+    background-color: #c0392b !important;
+}
+
+/* ... (保留所有其他的 common.css 樣式) ... */
 
 /* 卡片容器（用於顯示內容） */
 
