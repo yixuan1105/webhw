@@ -1,5 +1,5 @@
 <?php
-// (新增成果頁面)
+
 require_once('iden.php');
 require_once('header.php');
 requireLogin();
@@ -12,15 +12,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['user_id'];
     //用途： 確保只有當使用者透過表單提交資料（使用了 POST 方法）時，才執行大括號 {} 內的代碼。這能防止腳本在簡單的頁面載入（通常是 GET 方法）時執行資料處理。
 
-$_SERVER['REQUEST_METHOD'] 是一個 PHP 超級全域變數，它包含了用於存取頁面的請求方法（如 GET、POST、PUT 等）。
+$_SERVER['REQUEST_METHOD'] 
     if (empty($title) || empty($category)) { // 檢查類別是否為空
         $error = "標題與類別均為必填";
     } else {
-        // 2. SQL 語法加入 category 欄位
+
         $sql = "INSERT INTO achievements (user_id, category, title, description, status, created_at) VALUES (?, ?, ?, ?, 'pending', NOW())";
         
         try {
-            // 3. 執行時帶入 $category 參數
             execute($sql, [$user_id, $category, $title, $description]);
             header("Location: achievement.php");
             exit();
