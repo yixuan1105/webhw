@@ -51,7 +51,7 @@ $base_path = '/webhw/';
             </h1>
             
             <ul class="navbar-menu" style="margin: 0;">
-                <?php if ($is_logged_in): ?>
+                <?php if ($is_logged_in): //使用者已登入（變數 $is_logged_in 為 true）。?>
                     <li style="padding: 8px 10px; color: #eee;">
                         <?php echo ($user_name); ?>
                     </li>
@@ -65,7 +65,7 @@ $base_path = '/webhw/';
 
                     <li><a href="<?php echo $base_path; ?>logout.php" style="background-color: #e74c3c; padding: 8px 15px;">登出</a></li>
                     
-                <?php else: ?>
+                <?php else:  // 使用者未登入 ?> 
                     <li><a href="<?php echo $base_path; ?>login.php" style="background-color: #3498db; padding: 8px 15px;">登入</a></li>
                 <?php endif; ?>
             </ul>

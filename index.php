@@ -7,7 +7,7 @@ $page_css_files = ['admin.css'];
 
 require_once('header.php'); 
 
-$search_name = trim($_GET['search_name'] ?? '');
+$search_name = trim($_GET['search_name'] ?? '');  // trim() - 去除空白
 $search_skill = trim($_GET['search_skill'] ?? '');
 $search_dept = trim($_GET['search_dept'] ?? '');
 
@@ -42,7 +42,7 @@ try {
 
     <h2 style="text-align: center; margin-bottom: 30px;">人才搜尋</h2>
 
-    <form method="GET" action="index.php" class="filter-bar" style="flex-wrap: wrap;">
+    <form method="POST" action="index.php" class="filter-bar" style="flex-wrap: wrap;">
         
         <div style="flex-grow: 1; min-width: 200px;">
             <label for="search_name">學生姓名:</label>

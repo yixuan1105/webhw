@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['user_id'];
     //用途： 確保只有當使用者透過表單提交資料（使用了 POST 方法）時，才執行大括號 {} 內的代碼。這能防止腳本在簡單的頁面載入（通常是 GET 方法）時執行資料處理。
 
-$_SERVER['REQUEST_METHOD'] 
+
     if (empty($title) || empty($category)) { // 檢查類別是否為空
         $error = "標題與類別均為必填";
     } else {
