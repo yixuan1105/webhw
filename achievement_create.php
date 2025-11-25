@@ -5,7 +5,7 @@ require_once('header.php');
 requireLogin();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // 1. 接收 category 接收並安全地獲取表單數據
+    // 接收 category 接收並安全地獲取表單數據
     $category = $_POST['category'] ?? ''; // 新增
     $title = $_POST['title'] ?? '';
     $description = $_POST['description'] ?? '';

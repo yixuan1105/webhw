@@ -9,7 +9,6 @@ $is_logged_in = isset($_SESSION['user_id']);
 $user_name = $_SESSION['user_name'] ?? '';
 $user_role = $_SESSION['user_role'] ?? '';
 
-// 
 // 變數 $page_title 和 $page_css_files 
 // 應該在引用此檔案 *之前* 的頁面 (例如 index.php) 中定義
 //

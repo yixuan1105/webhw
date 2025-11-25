@@ -17,15 +17,15 @@ if (isUserLoggedIn()) {
 // 處理表單提交
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
-    // 步驟 1：直接取得使用者輸入 (移除了 CSRF 驗證)
+    // 直接取得使用者輸入
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
     
-    // 步驟 2：基本驗證
+    // 基本驗證
     if (empty($username) || empty($password)) {
         $error_message = "帳號和密碼不能為空。";
     } else {
-        // 步驟 3：呼叫登入處理函式
+        // 呼叫登入處理函式
         $error_message = handleLogin($username, $password);
     }
 }
@@ -59,7 +59,7 @@ if (isset($_GET['error'])) {
         
         <?php if ($error_message): ?>
             <div class="error-message">
-                <?php echo htmlspecialchars($error_message, ENT_QUOTES, 'UTF-8'); ?>
+                <?php echo $error_message; ?>
             </div>
         <?php endif; ?>
 
@@ -75,7 +75,7 @@ if (isset($_GET['error'])) {
                     required 
                     maxlength="50"
                     autocomplete="username"
-                    value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8') : ''; ?>"
+                    value="<?php echo isset($_POST['username']) ? $_POST['username'] : ''; ?>"
                 >
             </div>
 
