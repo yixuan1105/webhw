@@ -2,7 +2,7 @@
 <?php  
 //要查網頁的時候:輸入http://127.0.0.1/webhw/.php
 // 定義資料庫主機位置，127.0.0.1 是本機，3307 是 MySQL 的埠號
-define('DB_HOST', '127.0.0.1');
+define('DB_HOST', 'localhost:3307');
 
 // 定義要連線的資料庫名稱
 define('DB_NAME', 'web_student');
@@ -11,7 +11,7 @@ define('DB_NAME', 'web_student');
 define('DB_USER', 'root');
 
 // 定義資料庫登入密碼（開發環境通常為空，生產環境務必設定強密碼）
-define('DB_PASS', 'Peijun0629');
+define('DB_PASS', '');
 
 // ==========================================
 // 資料庫連線類別（使用單例模式）
