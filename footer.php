@@ -44,7 +44,7 @@ if (!defined('FOOTER_INCLUDED')) {
                     <i class="bi bi-geo-alt-fill me-2"></i> 新北市新莊區科技路 1 號
                 </p>
                 <p class="text-white-50">
-                    <i class="bi bi-envelope-fill me-2"></i> info@project.edu.tw
+                    <i class="bi bi-envelope-fill me-2"></i>sloc@fju.edu.tw
                 </p>
                 <p class="text-white-50">
                     <i class="bi bi-telephone-fill me-2"></i> +886-2-1234-5678
