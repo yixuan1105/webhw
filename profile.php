@@ -1,130 +1,102 @@
 <?php
-// 設置頁面標題
-$page_title = '個人檔案編輯';
-$page_css_files = ['common.css']; 
+require_once('db.php');
+require_once('iden.php');
+require_once('header.php');
 
-require_once('db.php');   // 引入資料庫工具 (fetchOne, execute)
-require_once('iden.php'); // 引入身分驗證
-require_once('header.php'); 
 
-// 0. 安全檢查
-requireLogin();// 執行函式檢查使用者是否已登入
-if ($_SESSION['user_role'] !== 'student') {// 檢查使用者角色是否為 'student'
-    header("Location: index.php?error=permission_denied");// 如果不是學生，導向首頁並顯示權限不足錯誤
+$current_user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
+
+$target_id = isset($_GET['id']) ? intval($_GET['id']) : $current_user_id;
+
+if ($target_id === 0) {
+    header("Location: index.php");
     exit();
 }
 
-// 取得基本變數(從 Session 中取得使用者資訊)
-$user_id = $_SESSION['user_id'];
-$account_name = $_SESSION['username'] ?? 'unknown_user'; 
-$upload_dir = "uploads/";// 設定圖片上傳的目標資料夾名稱
+$can_edit = ($current_user_id === $target_id);
+
+
+$page_title = $can_edit ? '編輯個人檔案' : '學生詳細資料';
+$upload_dir = "uploads/";
 $error = "";
 $success = "";
 
-// 確保上傳資料夾存在
-if (!is_dir($upload_dir)) {// 檢查 uploads 資料夾是否存在
-    mkdir($upload_dir, 0777, true); // 如果不存在則建立它，並給予最大權限 (0777)，'true' 表示遞迴建立
-}
-
-// 準備 SQL：抓取照片路徑和簡介
-$sql_select = "SELECT photo_path, bio FROM users WHERE id = ?";
-// 執行查詢 (使用 db.php 的 fetchOne)
-$current_data = fetchOne($sql_select, [$user_id]);// 執行查詢，取得一筆結果 (包含 photo_path 和 bio)
-
-// 處理讀取到的資料
-if (!$current_data) {
-    // 沒抓到資料的情況
-    $currentPhotoPath = 'https://via.placeholder.com/180?text=無資料';// 設定預設圖片 URL
-    $currentIntro = '';// 設定預設簡介為空
-    $error .= "警告：無法從資料庫載入您的個人檔案資訊。<br>"; // 新增錯誤訊息
-} else {
-    // 抓到資料了，處理圖片路徑
-    if (!empty($current_data['photo_path'])) {
-        // 如果有路徑，加上網址前綴 ($base_path 來自 header.php 或全域設定)
-        $currentPhotoPath = $base_path . $current_data['photo_path'];// 組合成完整的圖片 URL
+if ($can_edit && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    if ($_SESSION['user_role'] !== 'student') {
+        $error = "您沒有權限執行此操作。";
     } else {
-        // 如果欄位是空的，給預設圖
-        $currentPhotoPath = '';
-    }
-    // 設定簡介變數
-    $currentIntro = $current_data['bio']; 
-}
-
-// 處理表單提交 (當使用者按下儲存按鈕)
-if ($_SERVER['REQUEST_METHOD'] === 'POST') { // 檢查請求方法是否為 POST (表示表單已提交)
-    
-    // 接收簡介 (去除前後空白)
-    $new_intro = trim($_POST['bio'] ?? ''); 
-    
-    // 預設圖片路徑 = 舊的路徑 (把 $base_path 拿掉，因為資料庫只存相對路徑)
-    // 注意：如果 $current_data['photo_path'] 是空的，就給空字串
-    $db_photo_path = str_replace($base_path, '', $current_data['photo_path'] ?? '');
-    
-    $photo_updated = false; // 紀錄是否有更新照片 // 初始化旗標，紀錄是否有更新照片
-
-    // 檢查是否有上傳圖片
-    if (isset($_FILES["fileToUpload"]) && $_FILES["fileToUpload"]["error"] === UPLOAD_ERR_OK) {
-        // 檢查是否有上傳檔案，且上傳沒有錯誤 (UPLOAD_ERR_OK = 0)
-        $file_name = $_FILES["fileToUpload"]["name"];// 取得原始檔案名稱
-        $file_tmp_name = $_FILES["fileToUpload"]["tmp_name"];// 取得暫存檔案路徑
-        $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));// 取得副檔名並轉為小寫
+        $new_intro = trim($_POST['bio'] ?? '');
         
-        // 檢查副檔名
-        if (in_array($file_ext, ['jpg', 'jpeg', 'png', 'gif'])) { // 檢查副檔名是否為允許的圖片格式
-            // 設定新檔名 (使用帳號命名)
-            $new_filename = $account_name . "." . $file_ext; // 使用使用者帳號作為新的檔名，覆蓋舊圖
-            $target_filepath = $upload_dir . $new_filename; // $upload_dir = "uploads/"// 組合上傳後的完整相對路徑
+
+        $old_data = fetchOne("SELECT photo_path FROM users WHERE id = ?", [$target_id]);
+        $db_photo_path = $old_data['photo_path'] ?? '';
+        
+        $photo_updated = false;
+
+        // 圖片上傳處理
+        if (isset($_FILES["fileToUpload"]) && $_FILES["fileToUpload"]["error"] === UPLOAD_ERR_OK) {
+            if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
+
+            $file_name = $_FILES["fileToUpload"]["name"];
+            $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
             
-            // 搬移檔案
-            if (move_uploaded_file($file_tmp_name, $target_filepath)) { // 將暫存檔案移動到目標路徑
-                $db_photo_path = $target_filepath; // 更新要寫入資料庫的路徑
-                $success .= "照片上傳成功！<br>";
-                $photo_updated = true; // 設定照片已更新旗標
+            if (in_array($file_ext, ['jpg', 'jpeg', 'png', 'gif'])) {
+   
+                $new_filename = "user_" . $target_id . "." . $file_ext; 
+                $target_filepath = $upload_dir . $new_filename;
+                
+                if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_filepath)) {
+                    $db_photo_path = $target_filepath;
+                    $photo_updated = true;
+                } else {
+                    $error .= "照片存檔失敗。<br>";
+                }
             } else {
-                $error .= "照片存檔失敗。<br>"; // 記錄存檔錯誤 (可能是權限或路徑問題)
+                $error .= "檔案類型不支援。<br>";
             }
-        } else {
-            $error .= "檔案類型不支援。<br>";// 記錄副檔名錯誤
         }
-    } // 結束上傳圖片處理
 
-    // 執行資料庫更新 (原本包在 update 函式裡，現在直接寫) ---
-    if (empty($error)) { // 只有在沒有錯誤的情況下才執行資料庫更新
-        
-        $sql_update = "UPDATE users SET photo_path = ?, bio = ? WHERE id = ?";
-        // 執行更新 (使用 db.php 的 execute)
-        $result = execute($sql_update, [$db_photo_path, $new_intro, $user_id]); // 執行更新，將新路徑和簡介寫入資料庫
-        
-        if ($result !== false) {
-            // 更新成功後的訊息
-            if ($photo_updated) {
-                 $success .= "個人檔案與照片已更新！";// 顯示包含照片的更新成功訊息
+        if (empty($error)) {
+            $sql_update = "UPDATE users SET photo_path = ?, bio = ? WHERE id = ?";
+            $result = execute($sql_update, [$db_photo_path, $new_intro, $target_id]);
+            if ($result) {
+                $success = "資料更新成功！";
             } else {
-                 $success .= "文字簡介已儲存！";// 顯示只更新簡介的成功訊息
+                $error = "資料庫更新失敗。";
             }
-
-            // 重要：因為資料更新了，我們要重新讀取一次資料庫，讓網頁顯示最新的 
-            $current_data = fetchOne($sql_select, [$user_id]);
-            
-            // 重新設定顯示變數
-            if (!empty($current_data['photo_path'])) {
-                $currentPhotoPath = $base_path . $current_data['photo_path']; // 重新組合最新的圖片 URL
-            }
-            $currentIntro = $current_data['bio']; // 重新取得最新的簡介
-            
-        } else {
-             $error .= "資料庫更新失敗。<br>";// 記錄資料庫更新錯誤
         }
     }
 }
+
+
+$sql_select = "SELECT name, photo_path, bio, role FROM users WHERE id = ?";
+$user_data = fetchOne($sql_select, [$target_id]);
+
+if (!$user_data) {
+    echo '<div class="container py-5"><div class="alert alert-danger">查無此學生資料。</div></div>';
+    require_once('footer.php');
+    exit();
+}
+
+// 準備顯示用的變數
+$display_name = $user_data['name'];
+$display_intro = $user_data['bio'];
+$display_photo = !empty($user_data['photo_path']) ? $user_data['photo_path'] : 'https://via.placeholder.com/180?text=No+Image';
+
 ?>
 
 <div class="container" style="padding-top: 40px; padding-bottom: 40px; max-width: 800px;">
     
-    <h2 style="text-align: center; margin-bottom: 30px; color: #007bff; font-weight: 600;">
-        <i class="bi bi-person-circle" style="margin-right: 10px;"></i>
-        <?php echo ($_SESSION['user_name'] ?? '學生') ?> 的個人檔案編輯
-    </h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 style="color: #007bff;">
+            <i class="bi bi-person-circle"></i> 
+            <?php echo htmlspecialchars($display_name); ?> 的檔案
+        </h2>
+        <?php if (!$can_edit): ?>
+            <a href="index.php" class="btn btn-outline-secondary">返回列表</a>
+        <?php endif; ?>
+    </div>
 
     <?php if (!empty($success)): ?>
         <div class="alert alert-success"><?= $success ?></div>
@@ -135,35 +107,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { // 檢查請求方法是否為 POST
     <?php endif; ?>
 
     <div class="card p-4 shadow-lg border-0">
-        <form action="profile.php" method="post" enctype="multipart/form-data">
-            
+        
+        <?php if ($can_edit): ?>
+            <form action="profile.php?id=<?= $target_id ?>" method="post" enctype="multipart/form-data">
+        <?php else: ?>
+            <div class="view-mode">
+        <?php endif; ?>
+
             <div class="text-center mb-5">
-                <p class="mb-3 text-muted fw-bold">目前大頭貼</p>
                 <img 
-                    src="<?= $currentPhotoPath ?>?v=<?= time() ?>" // 修改為 (在檔案路徑後面加上"?v=" 和當前時間)：強制刷新圖片快取
+                    src="<?= htmlspecialchars($display_photo) ?>" 
                     class="rounded-circle border border-primary border-3"
-                    style="width: 180px; height: 180px; object-fit: cover;"
+                    style="width: 180px; height: 180px; object-fit: cover; background: #f0f0f0;"
                 >
-                <p class="small text-muted mt-3">帳號: <?= $account_name ?></p>
+                <p class="mt-3 fw-bold fs-4"><?= htmlspecialchars($display_name) ?></p>
             </div>
             
-            <div class="mb-4">
-                <label for="fileToUpload" class="form-label fw-bold">上傳新的個人照片:</label>
-                <input class="form-control" type="file" name="fileToUpload" id="fileToUpload" accept="image/jpeg, image/png, image/gif">
-            </div>
+            <?php if ($can_edit): ?>
+                <div class="mb-4">
+                    <label for="fileToUpload" class="form-label fw-bold text-primary">更換大頭貼:</label>
+                    <input class="form-control" type="file" name="fileToUpload" id="fileToUpload" accept="image/*">
+                </div>
+            <?php endif; ?>
 
             <div class="mb-4">
-                <label for="bio" class="form-label fw-bold">個人簡介 / 科系 / 特長：</label>
-                <textarea class="form-control" name="bio" id="bio" rows="8" style="resize: none;"><?= $currentIntro ?></textarea>
+                <label class="form-label fw-bold text-secondary">個人簡介 / 科系 / 特長：</label>
+                <?php if ($can_edit): ?>
+                    <textarea class="form-control" name="bio" rows="8" style="resize: none;"><?= htmlspecialchars($display_intro) ?></textarea>
+                <?php else: ?>
+                    <div class="p-3 bg-light rounded border" style="min-height: 150px; white-space: pre-wrap;">
+                        <?= !empty($display_intro) ? htmlspecialchars($display_intro) : '<span class="text-muted">（這位同學很懶，還沒寫簡介）</span>' ?>
+                    </div>
+                <?php endif; ?>
             </div>
             
-            <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary btn-lg w-100" name="submit">
-                    <i class="bi bi-save"></i> 儲存個人檔案
-                </button>
-            </div>
+            <?php if ($can_edit): ?>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg w-100">
+                        <i class="bi bi-save"></i> 儲存修改
+                    </button>
+                </div>
+            <?php endif; ?>
 
-        </form>
+        <?php if ($can_edit): ?>
+            </form>
+        <?php else: ?>
+            </div>
+        <?php endif; ?>
+        
     </div>
 </div>
 
