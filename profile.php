@@ -3,9 +3,8 @@ require_once('db.php');
 require_once('iden.php');
 require_once('header.php');
 
-
+// 1. 判斷使用者與目標 ID
 $current_user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
-
 $target_id = isset($_GET['id']) ? intval($_GET['id']) : $current_user_id;
 
 if ($target_id === 0) {
@@ -15,20 +14,22 @@ if ($target_id === 0) {
 
 $can_edit = ($current_user_id === $target_id);
 
-
+// 設定頁面參數
 $page_title = $can_edit ? '編輯個人檔案' : '學生詳細資料';
 $upload_dir = "uploads/";
 $error = "";
 $success = "";
 
+// 2. 處理表單提交 (僅編輯模式)
 if ($can_edit && $_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if ($_SESSION['user_role'] !== 'student') {
         $error = "您沒有權限執行此操作。";
     } else {
+        // 接收簡介 (不進行額外過濾，直接接收)
         $new_intro = trim($_POST['bio'] ?? '');
         
-
+        // 取得舊照片路徑
         $old_data = fetchOne("SELECT photo_path FROM users WHERE id = ?", [$target_id]);
         $db_photo_path = $old_data['photo_path'] ?? '';
         
@@ -42,7 +43,6 @@ if ($can_edit && $_SERVER['REQUEST_METHOD'] === 'POST') {
             $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
             
             if (in_array($file_ext, ['jpg', 'jpeg', 'png', 'gif'])) {
-   
                 $new_filename = "user_" . $target_id . "." . $file_ext; 
                 $target_filepath = $upload_dir . $new_filename;
                 
@@ -57,6 +57,7 @@ if ($can_edit && $_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
+        // 更新資料庫
         if (empty($error)) {
             $sql_update = "UPDATE users SET photo_path = ?, bio = ? WHERE id = ?";
             $result = execute($sql_update, [$db_photo_path, $new_intro, $target_id]);
@@ -69,7 +70,7 @@ if ($can_edit && $_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-
+// 3. 讀取顯示資料
 $sql_select = "SELECT name, photo_path, bio, role FROM users WHERE id = ?";
 $user_data = fetchOne($sql_select, [$target_id]);
 
@@ -79,7 +80,7 @@ if (!$user_data) {
     exit();
 }
 
-// 準備顯示用的變數
+// 準備顯示用的變數 (直接賦值，不使用 htmlspecialchars)
 $display_name = $user_data['name'];
 $display_intro = $user_data['bio'];
 $display_photo = !empty($user_data['photo_path']) ? $user_data['photo_path'] : 'https://via.placeholder.com/180?text=No+Image';
@@ -91,7 +92,7 @@ $display_photo = !empty($user_data['photo_path']) ? $user_data['photo_path'] : '
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 style="color: #007bff;">
             <i class="bi bi-person-circle"></i> 
-            <?php echo htmlspecialchars($display_name); ?> 的檔案
+            <?php echo $display_name; ?> 的檔案
         </h2>
         <?php if (!$can_edit): ?>
             <a href="index.php" class="btn btn-outline-secondary">返回列表</a>
@@ -116,11 +117,11 @@ $display_photo = !empty($user_data['photo_path']) ? $user_data['photo_path'] : '
 
             <div class="text-center mb-5">
                 <img 
-                    src="<?= htmlspecialchars($display_photo) ?>" 
+                    src="<?= $display_photo ?>" 
                     class="rounded-circle border border-primary border-3"
                     style="width: 180px; height: 180px; object-fit: cover; background: #f0f0f0;"
                 >
-                <p class="mt-3 fw-bold fs-4"><?= htmlspecialchars($display_name) ?></p>
+                <p class="mt-3 fw-bold fs-4"><?= $display_name ?></p>
             </div>
             
             <?php if ($can_edit): ?>
@@ -133,10 +134,10 @@ $display_photo = !empty($user_data['photo_path']) ? $user_data['photo_path'] : '
             <div class="mb-4">
                 <label class="form-label fw-bold text-secondary">個人簡介 / 科系 / 特長：</label>
                 <?php if ($can_edit): ?>
-                    <textarea class="form-control" name="bio" rows="8" style="resize: none;"><?= htmlspecialchars($display_intro) ?></textarea>
+                    <textarea class="form-control" name="bio" rows="8" style="resize: none;"><?= $display_intro ?></textarea>
                 <?php else: ?>
                     <div class="p-3 bg-light rounded border" style="min-height: 150px; white-space: pre-wrap;">
-                        <?= !empty($display_intro) ? htmlspecialchars($display_intro) : '<span class="text-muted">（這位同學很懶，還沒寫簡介）</span>' ?>
+                        <?= !empty($display_intro) ? $display_intro : '<span class="text-muted">（這位同學很懶，還沒寫簡介）</span>' ?>
                     </div>
                 <?php endif; ?>
             </div>
