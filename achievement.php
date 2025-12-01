@@ -2,17 +2,15 @@
  //  成果列表
 require_once('iden.php'); // 引入身分驗證
 require_once('header.php'); // 引入導覽列
+require_once('db.php'); //引入資料庫工具 (包含 fetchAll)
 
 //強制要求登入 (如果沒登入會被踢回登入頁)
 requireLogin();
-
-//取得目前登入學生的 ID
-$current_user_id = $_SESSION['user_id'];
+$current_user_id = $_SESSION['user_id'];// 從 Session 中取得目前登入使用者的 ID
 
 //從資料庫讀取該學生的成果
 $sql = "SELECT * FROM achievements WHERE user_id = ? ORDER BY created_at DESC";
-$achievements = fetchAll($sql, [$current_user_id]);
-
+$achievements = fetchAll($sql, [$current_user_id]);// 執行查詢，使用 fetchAll 取得所有符合條件的成果記錄
 ?>
 
 <div class="container" style="padding-top: 40px;">

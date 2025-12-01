@@ -14,14 +14,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     if (empty($title) || empty($category)) { // 檢查類別是否為空
-        $error = "標題與類別均為必填";
+        $error = "標題與類別均為必填"; //設定錯誤訊息，提示使用者必填欄位。
     } else {
-
+        //將新成果寫入資料庫。狀態（status）預設設為 'pending'（審核中），創建時間（created_at）為當前時間
         $sql = "INSERT INTO achievements (user_id, category, title, description, status, created_at) VALUES (?, ?, ?, ?, 'pending', NOW())";
         
-        try {
-            execute($sql, [$user_id, $category, $title, $description]);
-            header("Location: achievement.php");
+        try { //錯誤處理： 使用 try...catch 結構來捕捉資料庫操作可能發生的錯誤。
+            execute($sql, [$user_id, $category, $title, $description]);//執行寫入資料庫的操作
+            header("Location: achievement.php");//如果資料新增成功，將使用者導回成果列表頁面。
             exit();
         } catch (PDOException $e) {
             $error = "新增失敗：" . $e->getMessage();
