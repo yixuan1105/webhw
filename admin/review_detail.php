@@ -107,7 +107,7 @@ $page_title = $achievement ? "審核成果: " . $achievement['title'] : "審核�
                     <div class="col-md-6">
                         <h5>成果資訊</h5>
                         <p><strong>類別：</strong> <?= ($achievement['category']) ?></p>
-                        <p><strong>上傳日期：</strong> <?= ($achievement['upload_date']) ?></p>
+                        <p><strong>上傳日期：</strong> <?= ($achievement['created_at']) ?></p>
                         <p><strong>目前狀態：</strong> <span class="<?= ($achievement['status']) ?>"><?= ucfirst(($achievement['status'])) ?></span></p>
                     </div>
                 </div>
