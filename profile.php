@@ -83,7 +83,7 @@ if (!$user_data) {//資料檢查： 如果找不到目標使用者的資料。
 // 準備顯示用的變數 (直接賦值，不使用 htmlspecialchars)
 $display_name = $user_data['name'];//獲取並設定顯示用的名稱。
 $display_intro = $user_data['bio'];//獲取並設定顯示用的簡介。
-$display_photo = !empty($user_data['photo_path']) ? $user_data['photo_path'] : 'https://via.placeholder.com/180?text=No+Image';//設定照片路徑： 如果資料庫有路徑則使用，否則使用預設圖片 URL。
+$display_photo = !empty($user_data['photo_path']) ? $user_data['photo_path'] : '';
 
 ?>
 
@@ -92,24 +92,25 @@ $display_photo = !empty($user_data['photo_path']) ? $user_data['photo_path'] : '
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 style="color: #007bff;">
             <i class="bi bi-person-circle"></i> 
-            <?php echo $display_name;//輸出目標使用者的名稱 ?> 的檔案
+            <?php echo $display_name; ?>  <!-- 輸出目標使用者的名稱的檔案 -->
         </h2>
-        <?php if (!$can_edit): ?//條件顯示： 如果處於觀看模式（不能編輯），則顯示「返回列表」按鈕。
-            <a href="index.php" class="btn btn-outline-secondary">返回列表</a>
+        <?php if (!$can_edit): ?>  <!-- 條件顯示： 如果處於觀看模式（不能編輯），則顯示「返回列表」按鈕。 -->
+            <a href="index.php" class ="btn btn-outline-secondary">返回列表</a>
         <?php endif; ?>
     </div>
 
-    <?php if (!empty($success)): ?>//如果有成功訊息，則顯示綠色提示框並輸出訊息。
+    <?php if (!empty($success)): ?> <!-- 如果有成功訊息，則顯示綠色提示框並輸出訊息。 -->
         <div class="alert alert-success"><?= $success ?></div>
     <?php endif; ?>
     
-    <?php if (!empty($error)): ?>//如果有錯誤訊息，則顯示紅色提示框並輸出訊息。
+    <?php if (!empty($error)): ?> <!-- 如果有錯誤訊息，則顯示紅色提示框並輸出訊息。 -->
         <div class="alert alert-danger"><?= $error ?></div>
     <?php endif; ?>
 
     <div class="card p-4 shadow-lg border-0">
         
-        <?php if ($can_edit): ?> //模式切換： 根據是否允許編輯，決定使用 <form> 標籤（編輯模式）還是 <div> 標籤（觀看模式）。
+    <!-- 模式切換： 根據是否允許編輯，決定使用標籤（編輯模式）還是標籤（觀看模式）。 -->
+        <?php if ($can_edit): ?>
             <form action="profile.php?id=<?= $target_id ?>" method="post" enctype="multipart/form-data">
         <?php else: ?>
             <div class="view-mode">
@@ -117,14 +118,14 @@ $display_photo = !empty($user_data['photo_path']) ? $user_data['photo_path'] : '
 
             <div class="text-center mb-5">
                 <img 
-                    src="<?= $display_photo ?>" //輸出照片路徑
+                    src="<?= $display_photo ?>" 輸出照片路徑
                     class="rounded-circle border border-primary border-3"
                     style="width: 180px; height: 180px; object-fit: cover; background: #f0f0f0;"
                 >
                 <p class="mt-3 fw-bold fs-4"><?= $display_name ?></p>
             </div>
             
-            <?php if ($can_edit): ?>//只有在編輯模式下才顯示「更換大頭貼」的檔案選擇輸入框。
+            <?php if ($can_edit): ?> <!-- //只有在編輯模式下才顯示「更換大頭貼」的檔案選擇輸入框。 -->
                 <div class="mb-4">
                     <label for="fileToUpload" class="form-label fw-bold text-primary">更換大頭貼:</label>
                     <input class="form-control" type="file" name="fileToUpload" id="fileToUpload" accept="image/*">
@@ -133,7 +134,7 @@ $display_photo = !empty($user_data['photo_path']) ? $user_data['photo_path'] : '
 
             <div class="mb-4">
                 <label class="form-label fw-bold text-secondary">個人簡介 / 科系 / 特長：</label>
-                <?php if ($can_edit): ?>//條件顯示與預填： 如果是編輯模式，則顯示 textarea 並預填簡介；如果是觀看模式，則顯示純文字，如果簡介為空則顯示提示文字。
+                <?php if ($can_edit): ?> <!-- 條件顯示與預填： 如果是編輯模式，則顯示 textarea 並預填簡介；如果是觀看模式，則顯示純文字，如果簡介為空則顯示提示文字。 -->
                     <textarea class="form-control" name="bio" rows="8" style="resize: none;"><?= $display_intro ?></textarea>
                 <?php else: ?>
                     <div class="p-3 bg-light rounded border" style="min-height: 150px; white-space: pre-wrap;">
@@ -142,14 +143,14 @@ $display_photo = !empty($user_data['photo_path']) ? $user_data['photo_path'] : '
                 <?php endif; ?>
             </div>
             
-            <?php if ($can_edit): ?>//條件顯示： 只有在編輯模式下才顯示「儲存修改」按鈕。
+            <?php if ($can_edit): ?> <!-- //條件顯示： 只有在編輯模式下才顯示「儲存修改」按鈕。 -->
                 <div class="text-center mt-4">
                     <button type="submit" class="btn btn-primary btn-lg w-100">
-                        <i class="bi bi-save"></i> 儲存修改
+                        <i class="bi bi-save"></i> <!-- 儲存修改 -->
                     </button>
                 </div>
             <?php endif; ?>
-        //表單結束切換： 根據模式結束 <form> 或 </div> 標籤。
+        <!-- 表單結束切換： 根據模式結束 <form> 或 </div> 標籤。 -->
         <?php if ($can_edit): ?>
             </form>
         <?php else: ?>
