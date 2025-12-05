@@ -12,6 +12,7 @@ $page_title = '審核成果列表 - 管理員後台';
 $page_css_files = ['admin.css']; // 使用管理員專用樣式
 
 // 處理成功/錯誤訊息（從 URL 參數取得）
+//$_GET['success'] 的資料是從瀏覽器的 URL 地址列中傳遞過來的。通常來自於上一個頁面執行完畢後，使用 PHP 進行重導向 (header("Location: ...")) 時，手動附加到 URL 後面的參數。
 $success_message = '';
 $error_message = '';
 if (isset($_GET['success']) && $_GET['success'] == 1) {
