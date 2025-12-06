@@ -7,7 +7,7 @@ require_once('header.php');
 $current_user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;//獲取當前登入使用者的 ID；如果未登入，設為 0。
 $target_id = isset($_GET['id']) ? intval($_GET['id']) : $current_user_id;//優先從 GET 參數中獲取要查看的 ID；如果沒有 ID，則使用當前登入者的 ID。並確保 ID 為整數。
 
-if ($target_id === 0) {//強制檢查：如果沒有有效的目標 ID（表示未登入且 URL 中無 ID），將使用者導回首頁。
+if ($target_id === 0) { //強制檢查：如果沒有有效的目標 ID（表示未登入且 URL 中無 ID），將使用者導回首頁。
     header("Location: index.php");
     exit();
 }

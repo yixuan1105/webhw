@@ -12,13 +12,21 @@ if ($id) { //只有當成功接收到成果 ID 時，才執行大括號 {} 內�
     $user_id = $_SESSION['user_id'];//從 Session 中提取當前登入使用者的 ID。
     // 安全性檢查：確保這筆資料真的屬於目前登入的學生
     $check_sql = "SELECT id FROM achievements WHERE id = ? AND user_id = ?";
-    $exists = fetchOne($check_sql, [$id, $user_id]);//執行檢查查詢。如果結果非空，則表示這筆資料存在且權限匹配。
-    
-    if ($exists) {
-        // 執行刪除
-        $sql = "DELETE FROM achievements WHERE id = ?"; // 確保資料屬於當前使用者 確認無誤後，才會執行 DELETE 語句
+    $row = fetchOne($check_sql, [$id, $user_id]);
+    if ($row) {
+        
+        //刪除實體檔案 (新增的邏輯)
+        $file_path = $row['file_path'];
+        
+        // 檢查路徑是否不為空，且檔案真的存在於硬碟上
+        if (!empty($file_path) && file_exists($file_path)) {
+            // unlink() 是 PHP 用來刪除檔案的函式
+            unlink($file_path); 
+        }
 
-        execute($sql, [$id]);//執行資料庫刪除操作。
+        //執行資料庫刪除
+        $sql = "DELETE FROM achievements WHERE id = ?";
+        execute($sql, [$id]);
     }
 }
 
