@@ -289,30 +289,6 @@ $status_map = [
                                     class="btn-view">
                                     查看
                                 </a>
-                                
-                                <?php if ($ach['status'] === 'pending'): ?>
-                                    <form method="POST" action="review_process.php" style="display: inline;">
-                                        <input type="hidden" name="id" value="<?php echo $ach['id']; ?>">
-                                        <input type="hidden" name="status" value="approved">
-                                        <button
-                                            type="submit"
-                                            class="btn-approve"
-                                            onclick="return confirm('確定要通過此成果嗎？');">
-                                            通過
-                                        </button>
-                                    </form>
-                                    
-                                    <form method="POST" action="review_process.php" style="display: inline;">
-                                        <input type="hidden" name="id" value="<?php echo $ach['id']; ?>">
-                                        <input type="hidden" name="status" value="rejected">
-                                        <button
-                                            type="submit"
-                                            class="btn-reject"
-                                            onclick="return confirm('確定要標記為不通過嗎？');">
-                                            不通過
-                                        </button>
-                                    </form>
-                                <?php endif; ?>
                             </div>
                         </td>
                     </tr>

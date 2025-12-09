@@ -11,7 +11,6 @@ $error_message = '';
 $success_message = '';// 請在這裡加入這行：初始化成功訊息變數
 $achievement_id = $_GET['id'] ?? null;
 
-
 // 處理從列表頁導向過來的成功/錯誤訊息
 if (isset($_GET['success'])) {
     $success_message = (urldecode($_GET['success']));
@@ -149,11 +148,11 @@ $page_title = $achievement ? "審核成果: " . $achievement['title'] : "審核�
                     <div class="d-flex justify-content-end">
                         <button type="submit" name="action" value="reject" class="btn btn-danger me-2"
                                 onclick="return confirm('確定要駁回這項成果嗎？')">
-                            ❌ 駁回 (Reject)
+                            ❌ 不通過 (Reject)
                         </button>
                         <button type="submit" name="action" value="approve" class="btn btn-success"
                                 onclick="return confirm('確定要認證通過這項成果嗎？')">
-                            ✅ 認證通過 (Approve)
+                            ✅ 通過 (Approve)
                         </button>
                     </div>
                 </form>

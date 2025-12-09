@@ -7,7 +7,7 @@ requireAdminLogin();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     // 如果不是 POST 請求，導回待審列表並顯示錯誤
-    header("Location: pending_list.php?error=" . urlencode("請勿直接訪問審核處理頁面。"));
+    header("Location: review.php?error=" . urlencode("請勿直接訪問審核處理頁面。"));
     exit();
 }
 
@@ -22,8 +22,9 @@ $reviewer_id = $_SESSION['user_id'] ?? null; // 從 Session 取得當前管理�
 
 
 // 預設導向目標 (如果處理成功)
-$redirect_url = 'pending_list.php';
+$redirect_url = 'review.php';
 
+var_dump($_POST);
 // 輸入驗證與狀態設定
 if (empty($achievement_id) || !is_numeric($achievement_id) || empty($reviewer_id)) {
     $error_msg = "審核失敗：成果 ID 或審核者 ID 遺失。";
@@ -45,7 +46,7 @@ if (empty($achievement_id) || !is_numeric($achievement_id) || empty($reviewer_id
                 WHERE id = ?";
 
 
-        executeSQL($sql, [$new_status, $comment, $reviewer_id, $achievement_id]);
+        execute($sql, [$new_status, $comment, $reviewer_id, $achievement_id]);
        
         // 成功處理後，導向回列表頁面並帶上成功訊息
         header("Location: {$redirect_url}?success=" . urlencode($success_msg));
@@ -57,7 +58,7 @@ if (empty($achievement_id) || !is_numeric($achievement_id) || empty($reviewer_id
     }
 }
 
-
+echo $error_msg;
 // 處理失敗導向
 // 如果程式碼執行到這裡，表示有錯誤發生，導向列表頁並顯示錯誤訊息
 header("Location: {$redirect_url}?error=" . urlencode($error_msg));
