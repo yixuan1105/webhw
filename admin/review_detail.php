@@ -115,12 +115,12 @@ $page_title = $achievement ? "審核成果: " . $achievement['title'] : "審核�
                 <p><?= nl2br(($achievement['description'])) ?></p>
 
 
-                <h5 class="mt-4">證明文件 (檔案路徑)</h5>
+                <h5 class="mt-4">證明文件</h5>
                 <div class="proof-box">
-                    <?php if (!empty($achievement['proof_file'])): ?>
+                    <?php if (!empty($achievement['file_path'])): ?>
                         <p>
-                            <a href="../uploads/<?= ($achievement['proof_file']) ?>" target="_blank">
-                                📂 檢視證明文件 (<?= basename($achievement['proof_file']) ?>)
+                            <a href="../<?= ($achievement['file_path']) ?>" target="_blank">
+                                📂 檢視證明文件 (<?= basename($achievement['file_path']) ?>)
                             </a>
                         </p>
                     <?php else: ?>
@@ -140,19 +140,19 @@ $page_title = $achievement ? "審核成果: " . $achievement['title'] : "審核�
                     <input type="hidden" name="achievement_id" value="<?= $achievement['id'] ?>">
                    
                     <div class="mb-3">
-                        <label for="reviewer_comment" class="form-label">審核意見 (可選)</label>
+                        <label for="reviewer_comment" class="form-label">審核意見</label>
                         <textarea class="form-control" id="reviewer_comment" name="reviewer_comment" rows="3"><?= ($achievement['reviewer_comment'] ?? '') ?></textarea>
-                        <div class="form-text">此意見會記錄在資料庫，若駁回將對學生可見。</div>
+                        <div class="form-text">此意見若不通過學生可見。</div>
                     </div>
                    
                     <div class="d-flex justify-content-end">
                         <button type="submit" name="action" value="reject" class="btn btn-danger me-2"
-                                onclick="return confirm('確定要駁回這項成果嗎？')">
-                            ❌ 不通過 (Reject)
+                                onclick="return confirm('確定不通過這項成果嗎？')">
+                            不通過
                         </button>
                         <button type="submit" name="action" value="approve" class="btn btn-success"
                                 onclick="return confirm('確定要認證通過這項成果嗎？')">
-                            ✅ 通過 (Approve)
+                            通過
                         </button>
                     </div>
                 </form>

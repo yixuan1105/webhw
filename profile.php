@@ -107,7 +107,7 @@ if ($can_edit) {
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 style="color: #007bff;">
             <i class="bi bi-person-circle"></i> 
-            <?php echo htmlspecialchars($display_name); ?>
+            <?php echo ($display_name); ?>
         </h2>
         <?php if (!$can_edit): ?>
             <a href="index.php" class ="btn btn-outline-secondary">返回列表</a>
@@ -139,10 +139,10 @@ if ($can_edit) {
                     </div>
                 <?php endif; ?>
                 
-                <p class="mt-3 fw-bold fs-4"><?= htmlspecialchars($display_name) ?></p>
+                <p class="mt-3 fw-bold fs-4"><?= ($display_name) ?></p>
                 
                 <?php if (!$can_edit): ?>
-                    <span class="badge bg-info text-dark fs-6"><?= htmlspecialchars($display_dept_name) ?></span>
+                    <span class="badge bg-info text-dark fs-6"><?= ($display_dept_name) ?></span>
                 <?php endif; ?>
             </div>
             
@@ -158,7 +158,7 @@ if ($can_edit) {
                         <option value="">請選擇科系...</option>
                         <?php foreach ($departments_list as $dept): ?>
                             <option value="<?= $dept['id'] ?>" <?= ($dept['id'] == $current_dept_id) ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($dept['name']) ?>
+                                <?= ($dept['name']) ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
@@ -172,7 +172,7 @@ if ($can_edit) {
                 <?php else: ?>
                     <div class="p-3 bg-light rounded border" style="min-height: 150px; white-space: pre-wrap;">
                         <?php if (!empty($display_intro)): ?>
-                            <?= htmlspecialchars($display_intro) ?>
+                            <?= ($display_intro) ?>
                         <?php else: ?>
                             <span class="text-muted">（這位同學很懶，還沒寫簡介）</span>
                         <?php endif; ?>

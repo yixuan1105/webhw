@@ -11,7 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-
 // 取得資料庫連線
 $pdo = connectDB();
 
@@ -20,11 +19,9 @@ $action = $_POST['action'] ?? ''; // 預期值: 'approve' 或 'reject'
 $comment = trim($_POST['reviewer_comment'] ?? '');
 $reviewer_id = $_SESSION['user_id'] ?? null; // 從 Session 取得當前管理員 ID
 
-
 // 預設導向目標 (如果處理成功)
 $redirect_url = 'review.php';
 
-var_dump($_POST);
 // 輸入驗證與狀態設定
 if (empty($achievement_id) || !is_numeric($achievement_id) || empty($reviewer_id)) {
     $error_msg = "審核失敗：成果 ID 或審核者 ID 遺失。";
@@ -33,11 +30,14 @@ if (empty($achievement_id) || !is_numeric($achievement_id) || empty($reviewer_id
 } else {
     // 設置更新的狀態和成功訊息
     $new_status = ($action === 'approve') ? 'approved' : 'rejected';
-    $success_msg = "成果 ID: {$achievement_id} 已成功設定為 [{$new_status}]。";
+    
+    $status_text = ($action === 'approve') ? '通過' : '不通過';
+    $success_msg = "成果 ID: {$achievement_id} 已成功設定為 [{$status_text}]。";
 
     // 資料庫更新
     try {
         // 記錄審核時間 (CURRENT_TIMESTAMP)
+        // SQL 對應您提供的資料庫截圖：reviewer_comment, reviewer_id, review_date
         $sql = "UPDATE achievements
                 SET status = ?,
                     reviewer_comment = ?,
@@ -45,24 +45,20 @@ if (empty($achievement_id) || !is_numeric($achievement_id) || empty($reviewer_id
                     review_date = CURRENT_TIMESTAMP
                 WHERE id = ?";
 
-
-        execute($sql, [$new_status, $comment, $reviewer_id, $achievement_id]);
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$new_status, $comment, $reviewer_id, $achievement_id]);
        
         // 成功處理後，導向回列表頁面並帶上成功訊息
         header("Location: {$redirect_url}?success=" . urlencode($success_msg));
         exit();
-
 
     } catch (Exception $e) {
         $error_msg = "資料庫更新失敗: " . $e->getMessage();
     }
 }
 
-echo $error_msg;
 // 處理失敗導向
 // 如果程式碼執行到這裡，表示有錯誤發生，導向列表頁並顯示錯誤訊息
 header("Location: {$redirect_url}?error=" . urlencode($error_msg));
 exit();
-
-
 ?>
