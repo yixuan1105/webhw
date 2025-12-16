@@ -14,6 +14,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 // 載入 .env 檔案
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__); // 假設 .env 與此檔案在同一目錄
 $dotenv->safeLoad(); // 使用 safeLoad 避免找不到檔案時報錯
+$error = ''; 
+
 
 requireLogin();
 $user_id = $_SESSION['user_id'];
