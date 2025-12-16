@@ -1,12 +1,27 @@
 <?php
 // achievement_create.php - 上傳新成果
+
+// 1. 引入 PHPMailer (原本漏掉這段)
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
 require_once('iden.php');
 require_once('header.php');
 require_once('db.php');
 
+// 2. 引入 Composer 自動載入 (原本漏掉這段)
+require_once __DIR__ . '/vendor/autoload.php';
+
+// 3. 載入 .env 設定 (原本漏掉這段)
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->safeLoad();
+
 requireLogin();
 $user_id = $_SESSION['user_id'];
-$error = null; // 初始化錯誤訊息
+// 取得學生姓名供信件使用
+$student_name = $_SESSION['user_name'] ?? '一位學生';
+$error = null; 
 
 // 處理表單送出
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -25,23 +40,70 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } 
     else {
         // 處理檔案上傳
-        $upload_dir = 'fileupload/'; // 確保這個資料夾存在
+        $upload_dir = 'fileupload/'; 
         $file_ext = pathinfo($_FILES['achievement_file']['name'], PATHINFO_EXTENSION);
-        $new_filename = uniqid() . '_' . time() . '.' . $file_ext; // 產生唯一檔名
+        $new_filename = uniqid() . '_' . time() . '.' . $file_ext; 
         $target_file = $upload_dir . $new_filename;
 
         // 搬移檔案到伺服器
         if (move_uploaded_file($_FILES['achievement_file']['tmp_name'], $target_file)) {
             
-            // 3. 寫入資料庫 (狀態預設為 pending)
-            $sql = "INSERT INTO achievements (user_id, category, title, description, file_path, status, created_at) 
-                    VALUES (?, ?, ?, ?, ?, 'pending', NOW())";
-            
-            execute($sql, [$user_id, $category, $title, $description, $target_file]);
-            
-            // 4. 成功後導回列表
-            header("Location: achievement.php");
-            exit();
+            try {
+                // 3. 寫入資料庫
+                $sql = "INSERT INTO achievements (user_id, category, title, description, file_path, status, created_at) 
+                        VALUES (?, ?, ?, ?, ?, 'pending', NOW())";
+                
+                execute($sql, [$user_id, $category, $title, $description, $target_file]);
+                
+                // ===========================================
+                // 🔔 新增功能：發送 Email 通知
+                // ===========================================
+                try {
+                    $admin_email = $_ENV['ADMIN_EMAIL'] ?? 'default_admin@example.com';
+                    $base_url = $_ENV['BASE_URL'] ?? 'http://localhost/';
+
+                    $mail = new PHPMailer(true);
+                    
+                    // SMTP 設定
+                    $mail->isSMTP();
+                    $mail->Host       = 'smtp.office365.com';
+                    $mail->SMTPAuth   = true;
+                    $mail->Username   = $_ENV['M365_USER'];
+                    $mail->Password   = $_ENV['M365_PASS'];
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                    $mail->Port       = 587;
+                    $mail->CharSet    = 'UTF-8';
+
+                    // 收件人
+                    $mail->setFrom($_ENV['M365_USER'], '學生成果審核系統');
+                    $mail->addAddress($admin_email);
+
+                    // 信件內容
+                    $mail->isHTML(false);
+                    $mail->Subject = "【新成果上傳】" . htmlspecialchars($title);
+                    
+                    $body = "您好，管理員：\n\n";
+                    $body .= "學生 {$student_name} 剛剛上傳了一份新的學習成果。\n\n";
+                    $body .= "類別：{$category}\n";
+                    $body .= "標題：{$title}\n";
+                    $body .= "請前往系統後台進行審核。\n\n";
+                    $body .= "系統自動發送";
+
+                    $mail->Body = $body;
+                    $mail->send();
+
+                } catch (Exception $e) {
+                    // 記錄 Email 錯誤但不阻擋流程
+                    error_log("Create Email Failed: " . $mail->ErrorInfo);
+                }
+
+                // 4. 成功後導回列表
+                header("Location: achievement.php");
+                exit();
+
+            } catch (PDOException $e) {
+                $error = "資料庫錯誤：" . $e->getMessage();
+            }
 
         } else {
             $error = "檔案上傳失敗，請檢查 fileupload 資料夾權限。";
@@ -55,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h2>上傳新的學習成果</h2>
         
         <?php if ($error): ?>
-            <div class="alert alert-error"><?php echo $error; ?></div>
+            <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>
 
         <form method="POST" action="achievement_create.php" enctype="multipart/form-data">
