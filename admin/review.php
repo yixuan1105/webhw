@@ -123,7 +123,7 @@ $category_map = [
 ];
 
 
-// 狀態中文對照表
+// 狀態中文對照表  在資料庫顯示英文但因為有對照這個map=網頁才會顯示中文
 $status_map = [
     'pending' => '待審核',
     'approved' => '已認證',
@@ -275,7 +275,7 @@ $status_map = [
                         <td><?php echo $category_map[$ach['category']] ?? $ach['category']; ?></td>
                         
                         <td>
-                            <span class="badge badge-<?php echo $ach['status']; ?>">
+                            <span class="badge badge-<?php echo $ach['status']; ?>"><!--顯示成果的審核狀態-->
                                 <?php echo $status_map[$ach['status']] ?? $ach['status']; ?>
                             </span>
                         </td>
