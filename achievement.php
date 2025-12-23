@@ -89,7 +89,7 @@ $achievements = fetchAll($sql, [$current_user_id]);
                                 <td style="text-align: right;">
                                     <?php if ($row['status'] !== 'approved'): ?>
                                         <a href="achievement_edit.php?id=<?php echo $row['id']; ?>" class="btn btn-primary btn-sm">編輯</a>
-                                    <a href="achievement_delete.php?id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('確定刪除？');">刪除</a>
+                                        <a href="achievement_delete.php?id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('確定刪除？');">刪除</a>
                                     <?php endif; ?>
                                 </td>
                             </tr>

@@ -17,15 +17,15 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
 
 requireLogin();
-$user_id = $_SESSION['user_id'];
-$id = $_GET['id'] ?? $_POST['id']; 
+$user_id = $_SESSION['user_id']; //抓取學生id
+$id = $_GET['id'] ?? $_POST['id']; //抓取成果的id GET:剛點進「修改」按鈕時 POST:修改完後「儲存修改」按鈕時
 
 // 初始化變數
 $error = '';
 // 從 .env 取得管理員信箱，若沒設定則用預設值
 $admin_email = $_ENV['ADMIN_EMAIL'] ?? 'default_admin@example.com';
 $base_url    = $_ENV['BASE_URL'] ?? 'http://localhost/';
-$student_name = $_SESSION['user_name'] ?? '一位學生'; 
+$student_name = $_SESSION['user_name'] ?? ''; 
 
 // 處理表單送出
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = "標題與類別不能為空";
         } else {
             
-            //A檔案上傳邏輯
+            //檔案上傳邏輯
             $new_file_path = null; 
             
             if (isset($_FILES['achievement_file']) && $_FILES['achievement_file']['error'] === UPLOAD_ERR_OK) {

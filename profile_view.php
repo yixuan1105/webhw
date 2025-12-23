@@ -6,15 +6,15 @@ require_once('header.php');
 $student_id = $_GET['id'];
 $pdo = connectDB();
 
-// 查詢學生資料 (直接執行，不寫 try-catch)
-// 這裡用 LEFT JOIN 把科系名稱 (dept_name) 一起抓出來
+// 查詢學生資料
+// 用 LEFT JOIN 把科系名稱 (dept_name) 一起抓出來
 $sql_user = "SELECT u.*, d.name as dept_name 
              FROM users u
              LEFT JOIN departments d ON u.dept_id = d.id
              WHERE u.id = ?";
 $student = fetchOne($sql_user, [$student_id]);
 
-// 查詢成果資料
+// 查詢所有審核通過成果資料
 $sql_ach = "SELECT * FROM achievements 
             WHERE user_id = ? AND status = 'approved' 
             ORDER BY created_at DESC";
@@ -30,7 +30,7 @@ $category_map = ['subject'=>'擅長科目', 'language'=>'程式語言', 'competi
         <div class="card-body text-center" style="padding: 40px;">
             
             <?php 
-                $photo = $student['photo_path'] ? $student['photo_path'] : 'img/default_avatar.png';
+                $photo = $student['photo_path'];
             ?>
             <img src="<?php echo $photo; ?>" 
                  style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 5px solid #f8f9fa; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">

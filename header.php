@@ -10,8 +10,6 @@ $user_name = $_SESSION['user_name'] ?? '';
 $user_role = $_SESSION['user_role'] ?? '';
 
 // 變數 $page_title 和 $page_css_files 
-// 應該在引用此檔案 *之前* 的頁面 (例如 index.php) 中定義
-//
 
 if (!isset($page_title)) {
     $page_title = '學生學習成果認證系統'; // 預設標題
@@ -20,8 +18,7 @@ if (!isset($page_css_files)) {
     $page_css_files = []; // 預設沒有額外 CSS
 }
 
-// 假設您的專案根目錄在 http://localhost/webhw/
-// 我們使用絕對路徑 /webhw/ 來確保 CSS 和連結在任何頁面都能正確載入
+// 絕對路徑 /webhw/ 來確保 CSS 和連結在任何頁面都能正確載入
 $base_path = '/webhw/';
 ?>
 <!DOCTYPE html>

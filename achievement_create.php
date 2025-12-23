@@ -1,26 +1,25 @@
 <?php
-// achievement_create.php - 上傳新成果
 
-// 1. 引入 PHPMailer (原本漏掉這段)
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\SMTP;
+// 引入 PHPMailer
+use PHPMailer\PHPMailer\PHPMailer; //核心 Email 物件
+use PHPMailer\PHPMailer\Exception; //錯誤處理
+use PHPMailer\PHPMailer\SMTP; //郵件傳遞協定
 
 require_once('iden.php');
 require_once('header.php');
 require_once('db.php');
 
-// 2. 引入 Composer 自動載入 (原本漏掉這段)
+// 引入 Composer 自動載入
 require_once __DIR__ . '/vendor/autoload.php';
 
-// 3. 載入 .env 設定 (原本漏掉這段)
+// 載入 .env 設定
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
 
 requireLogin();
 $user_id = $_SESSION['user_id'];
 // 取得學生姓名供信件使用
-$student_name = $_SESSION['user_name'] ?? '一位學生';
+$student_name = $_SESSION['user_name'] ;
 $error = null; 
 
 // 處理表單送出
@@ -40,24 +39,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } 
     else {
         // 處理檔案上傳
-        $upload_dir = 'fileupload/'; 
+        $upload_dir = 'fileupload/';  //檔案搬到 fileupload 資料夾
         $file_ext = pathinfo($_FILES['achievement_file']['name'], PATHINFO_EXTENSION);
-        $new_filename = uniqid() . '_' . time() . '.' . $file_ext; 
+        $new_filename = uniqid() . '_' . time() . '.' . $file_ext; //亂碼編檔案名
         $target_file = $upload_dir . $new_filename;
 
         // 搬移檔案到伺服器
         if (move_uploaded_file($_FILES['achievement_file']['tmp_name'], $target_file)) {
             
             try {
-                // 3. 寫入資料庫
+                // 寫入資料庫
                 $sql = "INSERT INTO achievements (user_id, category, title, description, file_path, status, created_at) 
                         VALUES (?, ?, ?, ?, ?, 'pending', NOW())";
                 
                 execute($sql, [$user_id, $category, $title, $description, $target_file]);
                 
-                // ===========================================
-                // 🔔 新增功能：發送 Email 通知
-                // ===========================================
+                // 發送 Email 通知
                 try {
                     $admin_email = $_ENV['ADMIN_EMAIL'] ?? 'default_admin@example.com';
                     $base_url = $_ENV['BASE_URL'] ?? 'http://localhost/';
@@ -97,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     error_log("Create Email Failed: " . $mail->ErrorInfo);
                 }
 
-                // 4. 成功後導回列表
+                // 成功後導回列表
                 header("Location: achievement.php");
                 exit();
 
